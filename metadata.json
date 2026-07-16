@@ -1,0 +1,6 @@
+{
+  "name": "Cosmos Space RPG",
+  "description": "An immersive star-grid space RPG with a 2D side-scrolling FTL-style spaceship deck simulator, modular shipyard, procedural galaxy, crew management, and tactical dogfight arena.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
