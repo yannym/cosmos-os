@@ -1,0 +1,58 @@
+[
+  {
+    "id": "patrol_1",
+    "name": "Hegemony Patrol Alpha",
+    "shipClass": "starter_patrol",
+    "faction": "hegemony",
+    "personality": "Patrol",
+    "baseReputation": 50,
+    "isFriend": true,
+    "baseCredits": 1000,
+    "inventory": [],
+    "pool": true
+  },
+  {
+    "id": "merchant_1",
+    "name": "Consortium Hauler",
+    "shipClass": "heavy_hauler",
+    "faction": "consortium",
+    "personality": "Merchant",
+    "baseReputation": 50,
+    "isFriend": true,
+    "baseCredits": 5000,
+    "inventory": [
+      { "type": "fuel", "qty": 50, "basePrice": 20 },
+      { "type": "titanium_plates", "qty": 20, "basePrice": 30 }
+    ],
+    "pool": true
+  },
+  {
+    "id": "pirate_1",
+    "name": "Syndicate Raider",
+    "shipClass": "torpedoboat",
+    "faction": "syndicate",
+    "personality": "Outlaw",
+    "baseReputation": 10,
+    "isFriend": false,
+    "baseCredits": 300,
+    "inventory": [
+      { "type": "contraband", "qty": 5, "basePrice": 120 }
+    ],
+    "pool": true
+  },
+  {
+    "id": "explorer_1",
+    "name": "Wandering Explorer",
+    "shipClass": "science_explorer",
+    "faction": "independent",
+    "personality": "Explorer",
+    "baseReputation": 50,
+    "isFriend": true,
+    "baseCredits": 800,
+    "inventory": [
+      { "type": "beacon", "qty": 2, "basePrice": 150 },
+      { "type": "encrypted_drive", "qty": 1, "basePrice": 200 }
+    ],
+    "pool": true
+  }
+]

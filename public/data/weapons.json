@@ -1,0 +1,200 @@
+{
+  "pulse_laser": {
+    "id": "pulse_laser",
+    "name": "Pulse Laser Cannon",
+    "type": "shield_damaging",
+    "damage": 18,
+    "shieldBonus": 2.0,
+    "cost": 150,
+    "icon": "bolt",
+    "rarity": "common",
+    "desc": "Energy wave emitter. Extremely effective against dynamic shielding layers, dispersed on hull plates."
+  },
+  "pulse_laser_mk2": {
+    "id": "pulse_laser_mk2",
+    "name": "Pulse Laser MK2",
+    "type": "shield_damaging",
+    "damage": 28,
+    "shieldBonus": 2.0,
+    "cost": 300,
+    "icon": "bolt",
+    "rarity": "uncommon",
+    "desc": "Upgraded plasma focus lens. Devastates defensive energy buffers."
+  },
+  "pulse_laser_mk3": {
+    "id": "pulse_laser_mk3",
+    "name": "Pulse Laser MK3",
+    "type": "shield_damaging",
+    "damage": 42,
+    "shieldBonus": 2.0,
+    "cost": 600,
+    "icon": "bolt",
+    "rarity": "rare",
+    "desc": "Military grade laser array. Melts shields instantly."
+  },
+   "pulse_laser_mk6": {
+    "id": "pulse_laser_mk6",
+    "name": "Pulse Laser MKVI",
+    "type": "balanced",
+    "damage": 420,
+    "shieldBonus": 4.0,
+    "cost": 6000,
+    "icon": "bolt",
+    "rarity": "rare",
+    "desc": "Experimental Military Pulse Weapon"
+  },
+  "torpedo_launcher": {
+    "id": "torpedo_launcher",
+    "name": "HE Torpedo Tube",
+    "type": "hull_damaging",
+    "damage": 32,
+    "needsAmmo": true,
+    "cost": 250,
+    "icon": "rocket",
+    "rarity": "common",
+    "desc": "Launches fusion explosive warheads. Ignores 30% shielding parameters, shreds steel hulls."
+  },
+  "torpedo_launcher_mk2": {
+    "id": "torpedo_launcher_mk2",
+    "name": "HE Torpedo Tube MK2",
+    "type": "hull_damaging",
+    "damage": 48,
+    "needsAmmo": true,
+    "cost": 450,
+    "icon": "rocket",
+    "rarity": "uncommon",
+    "desc": "Fitted with high-velocity launch rails. Amplifies launcher base yield."
+  },
+  "torpedo_launcher_mk3": {
+    "id": "torpedo_launcher_mk3",
+    "name": "HE Torpedo Tube MK3",
+    "type": "hull_damaging",
+    "damage": 68,
+    "needsAmmo": true,
+    "cost": 900,
+    "icon": "rocket",
+    "rarity": "rare",
+    "desc": "Super-duty dreadnought deployment array. Exterminates hull frame plates."
+  },
+  "ion_blaster": {
+    "id": "ion_blaster",
+    "name": "Heavy Ion Array",
+    "type": "ion_disabling",
+    "damage": 12,
+    "cost": 180,
+    "icon": "zap",
+    "rarity": "uncommon",
+    "desc": "Disrupts internal electrical conduits. Temporarily disables secondary weapons system arrays."
+  },
+  "ion_blaster_mk2": {
+    "id": "ion_blaster_mk2",
+    "name": "Heavy Ion Array MK2",
+    "type": "ion_disabling",
+    "damage": 22,
+    "cost": 320,
+    "icon": "zap",
+    "rarity": "rare",
+    "desc": "Supercharged electronic sweep disruptor. Cripples hostiles."
+  },
+  "plasma_spike": {
+    "id": "plasma_spike",
+    "name": "Plasma Thermal Beam",
+    "type": "balanced",
+    "damage": 22,
+    "cost": 300,
+    "icon": "flame",
+    "rarity": "uncommon",
+    "desc": "Compressed thermal core burner. Balanced structural fusion damage payload targeting shielding and plating uniformly."
+  },
+  "plasma_spike_mk2": {
+    "id": "plasma_spike_mk2",
+    "name": "Plasma Thermal MK2",
+    "type": "balanced",
+    "damage": 36,
+    "cost": 550,
+    "icon": "flame",
+    "rarity": "rare",
+    "desc": "Overcharged atomic burner. Evaporates titanium hull panels uniformally."
+  },
+  "exclusive_railgun_mk4": {
+    "id": "exclusive_railgun_mk4",
+    "name": "Hyper-Velocity Railgun MK4",
+    "type": "hull_damaging",
+    "damage": 85,
+    "cost": 1200,
+    "icon": "crosshair",
+    "rarity": "ultra_rare",
+    "desc": "Elite specialized railgun launcher that fires heavy kinetic slugs. Bypasses shielding entirely."
+  },
+  "experimental_singularity_mkx": {
+    "id": "experimental_singularity_mkx",
+    "name": "Singularity Decimator MKX",
+    "type": "balanced",
+    "damage": 140,
+    "cost": 2500,
+    "icon": "sparkles",
+    "rarity": "one_of_a_kind",
+    "desc": "Classified hyper-tech singularity core launcher. Instantly folds surrounding spatial envelopes to collapse enemy vessels."
+  },
+  "sentient_chatterbox": {
+    "id": "sentient_chatterbox",
+    "name": "Sentient Chatterbox Laser",
+    "type": "shield_damaging",
+    "damage": 24,
+    "cost": 95,
+    "icon": "message-square",
+    "rarity": "uncommon",
+    "desc": "Stupidly cheap sentient gun. Chatters in log. 25% chance to insult target for +30% damage, but 15% chance to get distracted and miss entirely."
+  },
+  "retro_fission": {
+    "id": "retro_fission",
+    "name": "Retro-Grade Fission Blaster",
+    "type": "hull_damaging",
+    "damage": 55,
+    "cost": 110,
+    "icon": "rotate-ccw",
+    "rarity": "rare",
+    "desc": "Stupidly cheap and highly dangerous prototype. 12% chance to misfire and hit the player's own shield for 15 damage."
+  },
+  "consortium_gold": {
+    "id": "consortium_gold",
+    "name": "Consortium Golden Cannon",
+    "type": "balanced",
+    "damage": 60,
+    "cost": 2100,
+    "icon": "coins",
+    "rarity": "one_of_a_kind",
+    "desc": "Ludicrously expensive weapon crafted for elite trade oligarchs. Consumes 10 Credits per shot to double its damage! Shoots rusty dust (10% damage) if you run out of cash."
+  },
+  "void_paradox": {
+    "id": "void_paradox",
+    "name": "Void-Core Paradox Beam",
+    "type": "balanced",
+    "damage": 48,
+    "cost": 750,
+    "icon": "infinity",
+    "rarity": "ultra_rare",
+    "desc": "Unstable spacefold device. 15% chance to accidentally heal target for 20 Hull, but 15% chance to instantly disintegrate enemy's shields to 0."
+  },
+  "pulse_laser_mk5": {
+    "id": "pulse_laser_mk5",
+    "name": "Pulse Laser Cannon MK5",
+    "type": "shield_damaging",
+    "damage": 250,
+    "shieldBonus": 3.0,
+    "cost": 10000,
+    "icon": "bolt",
+    "rarity": "one_of_a_kind",
+    "desc": "God-tier pulse laser. Destroys all obstacles instantly with high-yield tachyon plasma discharges."
+  },
+  "emp_shockwave_launcher_mk1": {
+    "id": "emp_shockwave_launcher_mk1",
+    "name": "EMP Shockwave Launcher MK1",
+    "type": "ion_disabling",
+    "damage": 105,
+    "cost": 2200,
+    "icon": "zap",
+    "rarity": "one_of_a_kind",
+    "desc": "Exotic electromagnetic disruptor. Unleashes high-intensity spherical flux pulses that fry sub-system circuitry and disable armament arrays."
+  }
+}

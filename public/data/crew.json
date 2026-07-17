@@ -1,0 +1,15 @@
+[
+  { "name": "Cpt. Vance", "role": "Pilot", "pool": false, "price": 300, "perk": "High-G Turns (+5% Evasion / stacks)" },
+  { "name": "Lt. Sonya", "role": "Weapons Specialist", "pool": false, "price": 400, "perk": "Overcharge coils (+5% Weapon Damage / stacks)" },
+  { "name": "Dr. Selene", "role": "Science Director", "pool": false, "price": 250, "perk": "Tachyon Radiometers (+10% Scan Success / stacks)" },
+  { "name": "Baron Flint", "role": "Miner", "pool": false, "price": 280, "perk": "Extract core ores (+1 Mining Yield / stacks)" },
+  { "name": "Maddox Core", "role": "Cargo Manager", "pool": false, "price": 320, "perk": "Compacted Bay Storage (+2 Ship Cargo Slots / stacks)" },
+  { "name": "Sylvia Black", "role": "Spy", "pool": false, "price": 450, "perk": "Warp cloaking (-15% Ambush Rates & scans neighbors / stacks)" },
+  { "name": "Orion Key", "role": "Scanning Technician", "pool": false, "price": 350, "perk": "Noise Filter (+30% scanning mini-game signal stabilization)" },
+  { "name": "Orin 'Rock-Biter' Vex", "role": "Miner", "pool": false, "price": 2500, "perk": "Specialist extraction protocols (+25% yield)" },
+  { "name": "Silas 'Vein-Finder' Thorne", "role": "Scanning Technician", "pool": false, "price": 1800, "perk": "Deep crust resonance mapping (+15% speed)" },
+  { "name": "Sola 'Sun-Shield' Vance", "role": "Science Director", "pool": false, "price": 3500, "perk": "Ultimate solar core deflection arrays (+45% hazard survival)" },
+  { "name": "Generic Pilot", "role": "Pilot", "pool": true, "perk": "Standard Piloting (+2% Evasion)" },
+  { "name": "Generic Gunner", "role": "Weapons Specialist", "pool": true, "perk": "Standard Targeting (+2% Damage)" },
+  { "name": "Generic Scientist", "role": "Science Director", "pool": true, "perk": "Standard Scans (+2% Scan Success)" }
+]

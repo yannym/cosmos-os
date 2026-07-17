@@ -15,7 +15,7 @@ interface HologramShipyardProps {
   credits: number;
   themeColor: "green" | "amber" | "cyan";
   currentCrewCount: number;
-  stationTechLevel: number;
+  shipsForSale: string[];
 }
 
 export const HologramShipyard: React.FC<HologramShipyardProps> = ({
@@ -24,17 +24,12 @@ export const HologramShipyard: React.FC<HologramShipyardProps> = ({
   credits,
   themeColor,
   currentCrewCount,
-  stationTechLevel
+  shipsForSale
 }) => {
   const mountRef = useRef<HTMLDivElement | null>(null);
   const [selectedShipId, setSelectedShipId] = useState<string>(activeShipId);
 
-  const filteredShips = Object.keys(SHIPS_BLUEPRINTS).filter(key => {
-      const ship = SHIPS_BLUEPRINTS[key];
-      // Rare ships (tech level > 5) only at high tech stations
-      if (ship.price > 10000 && stationTechLevel < 5) return false;
-      return true;
-  });
+  const filteredShips = shipsForSale.length > 0 ? shipsForSale : [activeShipId];
 
   const selectedShipIdToUse = filteredShips.includes(selectedShipId) ? selectedShipId : filteredShips[0];
   const selectedShip = SHIPS_BLUEPRINTS[selectedShipIdToUse] || SHIPS_BLUEPRINTS.interceptor;

@@ -1,0 +1,291 @@
+{
+  "shield_standard": {
+    "id": "shield_standard",
+    "name": "Standard Shield Gen",
+    "category": "shield",
+    "rarity": "common",
+    "bonus": 0,
+    "cost": 0,
+    "desc": "Factory default shield array. Functional but weak."
+  },
+  "shield_carbon": {
+    "id": "shield_carbon",
+    "name": "Carbon Deflector Gen",
+    "category": "shield",
+    "rarity": "uncommon",
+    "bonus": 30,
+    "cost": 200,
+    "desc": "Reinforced carbon mesh weave. Adds +30 Maximum Shields.",
+    "techLevel": 2
+  },
+  "shield_aegis": {
+    "id": "shield_aegis",
+    "name": "Aegis Matrix Gen",
+    "category": "shield",
+    "rarity": "rare",
+    "bonus": 60,
+    "cost": 500,
+    "desc": "High-yield polarizing array. Adds +60 Maximum Shields.",
+    "techLevel": 4
+  },
+  "shield_void": {
+    "id": "shield_void",
+    "name": "Void-Shield Harmonizer",
+    "category": "shield",
+    "rarity": "ultra_rare",
+    "bonus": 100,
+    "cost": 1200,
+    "desc": "Experimental dark energy barrier. Adds +100 Maximum Shields.",
+    "techLevel": 7
+  },
+  "hull_standard": {
+    "id": "hull_standard",
+    "name": "Standard Hull Plates",
+    "category": "hull",
+    "rarity": "common",
+    "bonus": 0,
+    "cost": 0,
+    "desc": "Baseline titanium-alloy bulk plates."
+  },
+  "hull_reinforced": {
+    "id": "hull_reinforced",
+    "name": "Blast Alloy Plates",
+    "category": "hull",
+    "rarity": "uncommon",
+    "bonus": 40,
+    "cost": 250,
+    "desc": "Explosive-resistant composite weave. Adds +40 Maximum Hull Integrity.",
+    "techLevel": 2
+  },
+  "hull_nanite": {
+    "id": "hull_nanite",
+    "name": "Nanite Self-Sealing Plates",
+    "category": "hull",
+    "rarity": "rare",
+    "bonus": 80,
+    "cost": 600,
+    "desc": "Micro-repair layers that fuse under fire. Adds +80 Maximum Hull Integrity.",
+    "techLevel": 4
+  },
+  "hull_neutron": {
+    "id": "hull_neutron",
+    "name": "Neutron Core Matrix Armor",
+    "category": "hull",
+    "rarity": "ultra_rare",
+    "bonus": 150,
+    "cost": 1500,
+    "desc": "Sub-atomic compressed plate lattice. Adds +150 Maximum Hull Integrity.",
+    "techLevel": 7
+  },
+  "engine_standard": {
+    "id": "engine_standard",
+    "name": "Standard Warp Drive",
+    "category": "engine",
+    "rarity": "common",
+    "bonus": 1,
+    "cost": 0,
+    "desc": "Baseline hyper-jet warp drives."
+  },
+  "engine_ion": {
+    "id": "engine_ion",
+    "name": "Ion Thruster Drive",
+    "category": "engine",
+    "rarity": "uncommon",
+    "bonus": 0.85,
+    "cost": 180,
+    "desc": "Highly balanced propulsion matrix. Cuts fuel consumption by 15%.",
+    "techLevel": 2
+  },
+  "engine_fusion": {
+    "id": "engine_fusion",
+    "name": "Thermonuclear Core Drive",
+    "category": "engine",
+    "rarity": "rare",
+    "bonus": 0.7,
+    "cost": 450,
+    "desc": "Heavy fuel recycling conduits. Cuts fuel consumption by 30%.",
+    "techLevel": 4
+  },
+  "engine_singularity": {
+    "id": "engine_singularity",
+    "name": "Singularity Fold Drive",
+    "category": "engine",
+    "rarity": "ultra_rare",
+    "bonus": 0.5,
+    "cost": 1100,
+    "desc": "Manipulates space-fold directly. Cuts fuel consumption by 50%.",
+    "techLevel": 7
+  },
+  "scanner_standard": {
+    "id": "scanner_standard",
+    "name": "Standard Scanners",
+    "category": "scanner",
+    "rarity": "common",
+    "bonus": 0,
+    "cost": 0,
+    "desc": "Factory default radar. Basic threat scanning."
+  },
+  "scanner_mk1": {
+    "id": "scanner_mk1",
+    "name": "Scan Suite MK1",
+    "category": "scanner",
+    "rarity": "common",
+    "bonus": 10,
+    "cost": 120,
+    "desc": "Tuned emission antenna. Resolves spectral lines with 30% active noise reduction.",
+    "techLevel": 1
+  },
+  "scanner_mk2": {
+    "id": "scanner_mk2",
+    "name": "Scan Suite MK2",
+    "category": "scanner",
+    "rarity": "uncommon",
+    "bonus": 25,
+    "cost": 320,
+    "desc": "Active thermal/IR filter set. Resolves spectral lines with 50% noise reduction.",
+    "techLevel": 2
+  },
+  "scanner_mk3": {
+    "id": "scanner_mk3",
+    "name": "Scan Suite MK3",
+    "category": "scanner",
+    "rarity": "rare",
+    "bonus": 50,
+    "cost": 750,
+    "desc": "Quantum-stabilized Gamma/X-Ray array. Resolves spectral lines with 75% noise reduction.",
+    "techLevel": 4
+  },
+  "scanner_mk4": {
+    "id": "scanner_mk4",
+    "name": "Scan Suite MK4",
+    "category": "scanner",
+    "rarity": "ultra_rare",
+    "bonus": 90,
+    "cost": 1600,
+    "desc": "Void-Spectral Supercomputer analyzer. Resolves spectral lines with 90% noise reduction.",
+    "techLevel": 7
+  },
+  "scanner_tachyon": {
+    "id": "scanner_tachyon",
+    "name": "Tachyon Radiometer",
+    "category": "scanner",
+    "rarity": "uncommon",
+    "bonus": 15,
+    "cost": 150,
+    "desc": "Deep sensor pulses. Increases planetary scanning success chance by 15%.",
+    "techLevel": 2
+  },
+  "scanner_quantum": {
+    "id": "scanner_quantum",
+    "name": "Quantum Entangled Radar",
+    "category": "scanner",
+    "rarity": "rare",
+    "bonus": 30,
+    "cost": 400,
+    "desc": "Zero-latency telemetry sweep. Increases planetary scanning success chance by 30%.",
+    "techLevel": 4
+  },
+  "cargo_standard": {
+    "id": "cargo_standard",
+    "name": "Standard Cargo Bays",
+    "category": "cargo",
+    "rarity": "common",
+    "bonus": 0,
+    "cost": 0,
+    "desc": "Stock structural space containers."
+  },
+  "cargo_compression": {
+    "id": "cargo_compression",
+    "name": "Magnetic Compression Cells",
+    "category": "cargo",
+    "rarity": "uncommon",
+    "bonus": 4,
+    "cost": 150,
+    "desc": "Advanced physical space compaction. Adds +4 cargo slots.",
+    "techLevel": 2
+  },
+  "cargo_dimensional": {
+    "id": "cargo_dimensional",
+    "name": "Sub-Space Compartments",
+    "category": "cargo",
+    "rarity": "rare",
+    "bonus": 8,
+    "cost": 450,
+    "desc": "Warp folder boxes within boxes. Adds +8 cargo slots.",
+    "techLevel": 4
+  },
+  "cargo_pocket_void": {
+    "id": "cargo_pocket_void",
+    "name": "Pocket Void Expanders",
+    "category": "cargo",
+    "rarity": "ultra_rare",
+    "bonus": 16,
+    "cost": 1000,
+    "desc": "Folds extra-dimensional bubbles directly. Adds +16 cargo slots.",
+    "techLevel": 7
+  },
+  "mining_standard": {
+    "id": "mining_standard",
+    "name": "Class-I Rotational Cutter",
+    "category": "mining",
+    "rarity": "common",
+    "bonus": 1,
+    "cost": 25,
+    "desc": "Standard entry-level laser cutter drills.",
+    "miningTarget": "ore"
+  },
+  "mining_heavy": {
+    "id": "mining_heavy",
+    "name": "Class-II Carbide Core Drill",
+    "category": "mining",
+    "rarity": "rare",
+    "bonus": 2,
+    "cost": 450,
+    "desc": "Tier 2 heavy driller. Necessary for extracting volatile Ignis mineral nodes safely.",
+    "miningTarget": "ore",
+    "techLevel": 4
+  },
+  "mining_plasma": {
+    "id": "mining_plasma",
+    "name": "Class-III Plasma Inductor Matrix",
+    "category": "mining",
+    "rarity": "ultra_rare",
+    "bonus": 3,
+    "cost": 1200,
+    "desc": "Tier 3 advanced plasma extraction beam. Greatly increases extraction yields.",
+    "miningTarget": "ore",
+    "techLevel": 7
+  },
+    "mining_plasma2": {
+    "id": "mining_plasma2",
+    "name": "Class-IV Plasma Ripper",
+    "category": "mining",
+    "rarity": "ultra_rare",
+    "bonus": 5,
+    "cost": 2200,
+    "desc": "Tier 4 advanced plasma extraction beam. Greatly increases extraction yields.",
+    "miningTarget": "ore, gas",
+    "techLevel": 8
+  },
+  "mining_gas": {
+    "id": "mining_gas",
+    "name": "Class-G Atmospheric Gas Siphon",
+    "category": "mining",
+    "rarity": "rare",
+    "bonus": 2,
+    "cost": 650,
+    "desc": "A specialized electromagnetic condenser component. Required for harvesting precious gaseous planetary clouds and nebulae. Purchased from mining stations only.",
+    "miningTarget": "gas",
+    "techLevel": 4
+  },
+  "heat_core": {
+    "id": "heat_core",
+    "name": "Thermal Ejection Core",
+    "category": "heat",
+    "rarity": "rare",
+    "bonus": 0,
+    "cost": 800,
+    "desc": "Emergency thermal venting core. Ejects on use to reset heat to 0 and provides 60s of total heat immunity. Requires station replacement.",
+    "techLevel": 4
+  }
+}

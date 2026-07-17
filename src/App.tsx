@@ -33,7 +33,13 @@ import {
   FACTIONS,
   STAR_SYSTEMS_PROFILES,
   STORY_QUESTS_CAMPAIGNS,
-  BLUEPRINTS
+  BLUEPRINTS,
+  loadGameData,
+  applyCustomAddon,
+  STATION_TEMPLATES,
+  CREW_TEMPLATES,
+  PILOT_TEMPLATES,
+  MISSION_GIVER_TEMPLATES
 } from "./constants";
 import { AudioEngine } from "./audio";
 import { DeathScreen } from "./components/DeathScreen";
@@ -120,6 +126,9 @@ interface LogEntry {
 }
 
 export default function App() {
+  const [dataLoaded, setDataLoaded] = useState<number>(0);
+  const [loadedAddons, setLoadedAddons] = useState<string[]>([]);
+
   // --- SYSTEM STATES ---
   const [currentSystemIndex, setCurrentSystemIndex] = useState<number>(2); // Start in Proxima Centauri
   const [credits, setCredits] = useState<number>(1500);
@@ -146,14 +155,14 @@ export default function App() {
   ]);
   const [equippedWeapons, setEquippedWeapons] = useState<(string | null)[]>(["pulse_laser", null]);
   const [inventoryWeapons, setInventoryWeapons] = useState<string[]>(["pulse_laser", "torpedo_launcher"]);
-  const [fittedComponents, setFittedComponents] = useState<Record<string, string>>({
-    shield: "shield_standard",
-    hull: "hull_standard",
-    engine: "engine_standard",
-    scanner: "scanner_standard",
-    cargo: "cargo_standard",
-    mining: "mining_standard",
-    heat: "heat_core"
+  const [fittedComponents, setFittedComponents] = useState<Record<string, string[]>>({
+    shield: ["shield_standard"],
+    hull: ["hull_standard"],
+    engine: ["engine_standard"],
+    scanner: ["scanner_standard"],
+    cargo: ["cargo_standard"],
+    mining: ["mining_standard"],
+    heat: ["heat_core"],
   });
   const [ownedComponents, setOwnedComponents] = useState<string[]>([]);
   const [ownedBlueprints, setOwnedBlueprints] = useState<string[]>(["bp_pulse_laser_mk2", "bp_nanobots"]);
@@ -420,9 +429,13 @@ export default function App() {
     : baseMaxShield;
 
   function getFittedComponentBonus(category: string) {
-    const fittedId = fittedComponents[category];
-    const details = COMPONENT_ITEMS[fittedId];
-    return details ? details.bonus : 0;
+    const fittedIds = fittedComponents[category] || [];
+    let total = 0;
+    for (const id of fittedIds) {
+      const details = COMPONENT_ITEMS[id];
+      if (details) total += details.bonus;
+    }
+    return total;
   }
 
   function getEvasionBonus() {
@@ -448,9 +461,12 @@ export default function App() {
   }
 
   function getShieldRegenRate() {
-    const shieldId = fittedComponents.shield;
-    const shieldComponent = shieldId ? COMPONENT_ITEMS[shieldId] : undefined;
-    const bonus = shieldComponent ? shieldComponent.bonus : 0;
+    const shieldIds = fittedComponents.shield || [];
+    let bonus = 0;
+    for (const id of shieldIds) {
+      const comp = COMPONENT_ITEMS[id];
+      if (comp) bonus += comp.bonus;
+    }
 
     let powerScale = 1.0;
     if (powerAllocation.sys === 0) powerScale = 0.0;
@@ -799,6 +815,7 @@ export default function App() {
       addTerminalLog("cheat rich - Obtain 50,000 CR ledger balances instantly", "info");
       addTerminalLog("cheat kill - Obtain highly destructive Pulse Laser Cannon MK5 in cargo inventory", "info");
       addTerminalLog("cheat king - Recruits a random legend (Level 10) elite crew member", "info");
+      addTerminalLog("cheat station - Spawn a max-tech dev sandbox station in an adjacent sector", "info");
       return;
     }
 
@@ -877,6 +894,82 @@ export default function App() {
       setCrew((prev) => [...prev, newCM]);
       addTerminalLog(`CHEAT TRIGGERED: Recruited Level 10 Legend ${pickedName} (${pickedRole}) onto the bridge crew!`, "success");
       AudioEngine.playBeep(1200, 0.4, "sine");
+      return;
+    }
+
+    if (cmd === "cheat station") {
+      const directions = [
+        { dx: 1, dy: 0 },
+        { dx: -1, dy: 0 },
+        { dx: 0, dy: 1 },
+        { dx: 0, dy: -1 },
+        { dx: 1, dy: 1 },
+        { dx: -1, dy: 1 },
+        { dx: 1, dy: -1 },
+        { dx: -1, dy: -1 }
+      ];
+      let targetX = -1;
+      let targetY = -1;
+
+      // Try adjacent cell without a station first
+      for (const dir of directions) {
+        const nx = position.x + dir.dx;
+        const ny = position.y + dir.dy;
+        if (nx >= 0 && nx < galaxy.length && ny >= 0 && ny < (galaxy[nx]?.length || 0)) {
+          if (!galaxy[nx][ny]?.station) {
+            targetX = nx;
+            targetY = ny;
+            break;
+          }
+        }
+      }
+
+      // Fallback: any valid adjacent cell
+      if (targetX === -1) {
+        for (const dir of directions) {
+          const nx = position.x + dir.dx;
+          const ny = position.y + dir.dy;
+          if (nx >= 0 && nx < galaxy.length && ny >= 0 && ny < (galaxy[nx]?.length || 0)) {
+            targetX = nx;
+            targetY = ny;
+            break;
+          }
+        }
+      }
+
+      // Second fallback: current cell
+      if (targetX === -1) {
+        targetX = position.x;
+        targetY = position.y;
+      }
+
+      const allShipIds = Object.keys(SHIPS_BLUEPRINTS);
+      setGalaxy(prev => {
+        const next = [...prev];
+        if (next[targetX]) {
+          next[targetX] = [...next[targetX]];
+          const newStation: Station = {
+            name: "Quantum Sandbox Hub",
+            techLevel: 10,
+            techTitle: "Max-Tech Developer Sandbox Station",
+            missionBoard: generateMissionBoard(targetX, targetY, 10, "neutral"),
+            hiringLounge: generateRecruits(10),
+            cantinaVisitors: generateCantinaVisitors(targetX, targetY, 10, "neutral"),
+            isBlackMarket: true,
+            shipsForSale: allShipIds
+          };
+          next[targetX][targetY] = {
+            ...next[targetX][targetY],
+            station: newStation,
+            explored: true
+          };
+        }
+        return next;
+      });
+
+      addTerminalLog(`CHEAT TRIGGERED: Deployed Max-Tech 'Quantum Sandbox Hub' starbase at adjacent coordinates [X:${targetX - 4}, Y:${targetY - 4}]!`, "success");
+      addTerminalLog(` -> Includes a complete black market of all item types and a shipyard with every vessel class blueprint.`, "info");
+      AudioEngine.playBeep(1200, 0.45, "sine");
       return;
     }
 
@@ -1080,23 +1173,45 @@ export default function App() {
   };
 
   const generateRecruits = (techLevel: number, customRand?: () => number): RecruitCandidate[] => {
-    const basePool = [
-      { name: "Cpt. Vance", role: "Pilot", cost: 300, perk: "High-G Turns (+5% Evasion / stacks)" },
-      { name: "Lt. Sonya", role: "Weapons Specialist", cost: 400, perk: "Overcharge coils (+5% Weapon Damage / stacks)" },
-      { name: "Dr. Selene", role: "Science Director", cost: 250, perk: "Tachyon Radiometers (+10% Scan Success / stacks)" },
-      { name: "Baron Flint", role: "Miner", cost: 280, perk: "Extract core ores (+1 Mining Yield / stacks)" },
-      { name: "Maddox Core", role: "Cargo Manager", cost: 320, perk: "Compacted Bay Storage (+2 Ship Cargo Slots / stacks)" },
-      { name: "Sylvia Black", role: "Spy", cost: 450, perk: "Warp cloaking (-15% Ambush Rates & scans neighbors / stacks)" },
-      { name: "Orion Key", role: "Scanning Technician", cost: 350, perk: "Noise Filter (+30% scanning mini-game signal stabilization)" }
-    ];
-    
-    const pool = basePool.map(p => ({
-      ...p,
-      cost: Math.round(p.cost * globalHiringPriceMultiplier)
-    }));
-    
     const rFunc = customRand || Math.random;
-    return (pool.sort(() => 0.5 - rFunc()) as RecruitCandidate[]).slice(0, Math.min(pool.length, techLevel + 2));
+    
+    // Fallback if no templates loaded yet
+    const poolSources = CREW_TEMPLATES.length > 0 ? CREW_TEMPLATES : [
+      { name: "Cpt. Vance", role: "Pilot", pool: false, price: 300, perk: "High-G Turns (+5% Evasion / stacks)", techLevel: 3 },
+      { name: "Lt. Sonya", role: "Weapons Specialist", pool: false, price: 400, perk: "Overcharge coils (+5% Weapon Damage / stacks)", techLevel: 4 },
+      { name: "Dr. Selene", role: "Science Director", pool: false, price: 250, perk: "Tachyon Radiometers (+10% Scan Success / stacks)", techLevel: 2 },
+      { name: "Commander Zark", role: "Weapons Specialist", pool: false, price: 1500, perk: "Total Annihilation (+20% Weapon Damage / stacks)", techLevel: 8 },
+      { name: "Master Astro-Navigator", role: "Pilot", pool: false, price: 1200, perk: "God-Like Piloting (+15% Evasion)", techLevel: 7 },
+      { name: "Generic Pilot", role: "Pilot", pool: true, perk: "Standard Piloting (+2% Evasion)", techLevel: 1 }
+    ];
+
+    const candidates: RecruitCandidate[] = [];
+    const filteredSources = poolSources.filter(src => (src.techLevel || 1) <= techLevel);
+    const numToGenerate = Math.min(filteredSources.length, techLevel + 2);
+    
+    const shuffledSources = [...filteredSources].sort(() => 0.5 - rFunc());
+    
+    for (let i = 0; i < numToGenerate; i++) {
+      const src = shuffledSources[i];
+      let finalName = src.name;
+      if (src.pool) {
+        finalName = generateProceduralName(rFunc);
+      }
+      let finalCost = src.price;
+      if (finalCost === undefined) {
+        // Auto-decide price based on tech level
+        finalCost = 200 + techLevel * 50 + Math.floor(rFunc() * 100);
+      }
+      
+      candidates.push({
+        name: finalName,
+        role: src.role as any,
+        cost: Math.round(finalCost * globalHiringPriceMultiplier),
+        perk: src.perk
+      });
+    }
+
+    return candidates;
   };
 
   const FIRST_NAMES = [
@@ -1131,6 +1246,46 @@ export default function App() {
     const rFunc = customRand || Math.random;
     const visitorsCount = Math.floor(rFunc() * 7) + 1; // 1 to 7 visitors!
     const list: CantinaVisitor[] = [];
+
+    // --- Dynamic Templates Injection ---
+    if (MISSION_GIVER_TEMPLATES.length > 0) {
+      // Pick 0 to 2 dynamic templates
+      const numDynamic = Math.floor(rFunc() * 3);
+      const shuffledTemplates = [...MISSION_GIVER_TEMPLATES].sort(() => 0.5 - rFunc());
+      for (let i = 0; i < numDynamic && i < shuffledTemplates.length; i++) {
+        const t = shuffledTemplates[i];
+        
+        let wingman: Wingman | undefined = undefined;
+        if (t.type === "mercenary") {
+          const level = Math.floor(rFunc() * 3) + 1;
+          wingman = {
+            id: `wingman_dynamic_${t.id}_${sx}_${sy}`,
+            name: t.name,
+            shipType: "Fighter",
+            hp: 70 + level * 20, maxHp: 70 + level * 20,
+            shields: 40 + level * 15, maxShields: 40 + level * 15,
+            firepower: 10 + level * 5, cargoHold: level + 1,
+            duration: 15, maxDuration: 15,
+            cost: t.price || 500,
+            level, exp: 0,
+            abilities: ["Laser Core Focus"],
+            focus: "shields"
+          };
+        }
+        
+        list.push({
+          id: `visitor_${t.id}_${sx}_${sy}`,
+          name: t.name,
+          role: t.role,
+          description: t.description,
+          colorClass: t.colorClass || "text-neutral-400",
+          avatarIcon: t.avatarIcon || "👤",
+          type: t.type,
+          wingmanCandidate: wingman,
+          // missions could be populated if needed
+        });
+      }
+    }
 
     const visitorTypes: ("informant" | "smuggler" | "mercenary" | "syndicate")[] = [];
     
@@ -1493,6 +1648,14 @@ export default function App() {
     // Every even indexed border system is split in half; odd ones have the jump gate as the border checkpoint
     const isSplitHalf = isBorderSystem && (sysIndex % 2 === 0);
 
+    const singleSpawnsForSystem = STATION_TEMPLATES.filter(t => {
+      if (!t.singleSpawn) return false;
+      let hash = 0;
+      for (let i = 0; i < t.id.length; i++) hash += t.id.charCodeAt(i);
+      return sysIndex === (hash % STAR_SYSTEMS_PROFILES.length);
+    });
+    const unspawnedSingles = [...singleSpawnsForSystem];
+
     const grid: GalaxyCell[][] = [];
     const centerX = 4.5;
     const centerY = 4.5;
@@ -1683,54 +1846,114 @@ export default function App() {
 
         let station = null;
         if (hasStation && !isJumpGate) {
-          const grades = ["Low-Tech Border Hub", "Medium-Tech Sector Outpost", "High-Tech Industrial Spire"];
+          let stationTemplate = null;
           
-          let index = Math.floor(rand() * grades.length);
-          if (isFringeSystem) index = Math.floor(rand() * 2); // 0 or 1
-          if (isHighTechSystem) index = Math.floor(rand() * 2) + 1; // 1 or 2
-
-          const stationSuffixes = ["Gateway", "Outpost", "Depot", "Station", "Hub", "Refinery", "Dock", "Anchor", "Platform", "Base"];
-          let stationName = `${systemNames[Math.floor(rand() * systemNames.length)]} ${stationSuffixes[Math.floor(rand() * stationSuffixes.length)]}`;
-          let hiringLounge = generateRecruits(index + 1, rand);
-          let stationTitle = grades[index];
-
-          if (isMiningStationSector) {
-            stationName = "Deep Core Mining Station";
-            stationTitle = "Specialized Extraction Facility";
-            // Custom high level mining crew
-            hiringLounge = [
-              { name: "Orin 'Rock-Biter' Vex", role: "Miner", cost: 2500, perk: "Specialist extraction protocols (+25% yield)" },
-              { name: "Silas 'Vein-Finder' Thorne", role: "Scanning Technician", cost: 1800, perk: "Deep crust resonance mapping (+15% speed)" },
-              ...generateRecruits(index + 1, rand)
-            ];
+          if (unspawnedSingles.length > 0) {
+            stationTemplate = unspawnedSingles.shift();
+          } else if (STATION_TEMPLATES.length > 0) {
+            const validTemplates = STATION_TEMPLATES.filter(t => {
+              if (t.singleSpawn) return false;
+              if (t.lockedToSystem && t.lockedToSystem !== systemNameForSystem) return false;
+              if (t.preferredFactions.length > 0 && !t.preferredFactions.includes(factionKey)) return false;
+              return true;
+            });
+            if (validTemplates.length > 0) {
+              const roll = rand();
+              let cumulative = 0;
+              for (const t of validTemplates) {
+                cumulative += t.spawnProbability;
+                if (roll <= cumulative) {
+                  stationTemplate = t;
+                  break;
+                }
+              }
+              if (!stationTemplate) stationTemplate = validTemplates[validTemplates.length - 1];
+            }
           }
 
-          if (x === 4 && y === 4) {
+          if (stationTemplate) {
+            let isMining = stationTemplate.id.includes("mining");
+            let isSolar = stationTemplate.id.includes("solar");
+            
+            const shipsForSale = Object.values(SHIPS_BLUEPRINTS)
+              .filter(ship => (ship.techLevel || 1) <= stationTemplate.techLevel)
+              .map(ship => ship.id);
+
             station = {
-              name: `${systemNameForSystem} Solar Forge`,
-              techLevel: 4,
-              techTitle: "Deep Solar Energy Harvesting Station",
-              missionBoard: generateMissionBoard(x, y, 4, factionKey),
-              hiringLounge: [
-                { name: "Sola 'Sun-Shield' Vance", role: "Science Director", level: 10, cost: 3500, perk: "Ultimate solar core deflection arrays (+45% hazard survival)" },
-                ...generateRecruits(3, rand)
-              ],
-              cantinaVisitors: [
-                { id: "solar_guide_1", name: "Solar Pioneer", role: "Cantina Regular", description: "The solar station is the only place in the solar sector safe from the star's scorching radiation. Our shields cool docked vessels completely." }
-              ],
-              isSolarStation: true,
-              isMiningStation: false
+              name: stationTemplate.name,
+              techLevel: stationTemplate.techLevel,
+              techTitle: stationTemplate.techTitle,
+              missionBoard: generateMissionBoard(x, y, stationTemplate.techLevel, factionKey),
+              hiringLounge: generateRecruits(stationTemplate.techLevel, rand),
+              cantinaVisitors: generateCantinaVisitors(x, y, stationTemplate.techLevel, factionKey, rand),
+              isMiningStation: isMining,
+              isSolarStation: isSolar,
+              shipsForSale
             };
           } else {
-            station = {
-              name: stationName,
-              techLevel: index + 1,
-              techTitle: stationTitle,
-              missionBoard: generateMissionBoard(x, y, index + 1, factionKey),
-              hiringLounge: hiringLounge,
-              cantinaVisitors: generateCantinaVisitors(x, y, index + 1, factionKey, rand),
-              isMiningStation: isMiningStationSector
-            };
+            let stationTech = profile.techLevel || 3;
+            // add some variance
+            stationTech = Math.max(1, Math.min(10, stationTech + Math.floor(rand() * 3) - 1));
+            
+            const grades = ["Low-Tech Border Hub", "Medium-Tech Sector Outpost", "High-Tech Industrial Spire"];
+            let gradeIndex = 0;
+            if (stationTech >= 8) gradeIndex = 2;
+            else if (stationTech >= 4) gradeIndex = 1;
+
+            const stationSuffixes = ["Gateway", "Outpost", "Depot", "Station", "Hub", "Refinery", "Dock", "Anchor", "Platform", "Base"];
+            let stationName = `${systemNames[Math.floor(rand() * systemNames.length)]} ${stationSuffixes[Math.floor(rand() * stationSuffixes.length)]}`;
+            let hiringLounge = generateRecruits(stationTech, rand);
+            let stationTitle = `${grades[gradeIndex]} (Tier ${stationTech})`;
+
+            if (isMiningStationSector) {
+              stationName = "Deep Core Mining Station";
+              stationTitle = `Specialized Extraction Facility (Tier ${stationTech})`;
+              // Custom high level mining crew
+              hiringLounge = [
+                { name: "Orin 'Rock-Biter' Vex", role: "Miner", cost: 2500, perk: "Specialist extraction protocols (+25% yield)" },
+                { name: "Silas 'Vein-Finder' Thorne", role: "Scanning Technician", cost: 1800, perk: "Deep crust resonance mapping (+15% speed)" },
+                ...generateRecruits(stationTech, rand)
+              ];
+            }
+
+            if (x === 4 && y === 4) {
+              stationTech = Math.max(4, stationTech);
+              const shipsForSale = Object.values(SHIPS_BLUEPRINTS)
+                .filter(ship => (ship.techLevel || 1) <= stationTech)
+                .map(ship => ship.id);
+                
+              station = {
+                name: `${systemNameForSystem} Solar Forge`,
+                techLevel: stationTech,
+                techTitle: `Deep Solar Energy Harvesting Station (Tier ${stationTech})`,
+                missionBoard: generateMissionBoard(x, y, stationTech, factionKey),
+                hiringLounge: [
+                  { name: "Sola 'Sun-Shield' Vance", role: "Science Director", level: 10, cost: 3500, perk: "Ultimate solar core deflection arrays (+45% hazard survival)" },
+                  ...generateRecruits(3, rand)
+                ],
+                cantinaVisitors: [
+                  { id: "solar_guide_1", name: "Solar Pioneer", role: "Cantina Regular", description: "The solar station is the only place in the solar sector safe from the star's scorching radiation. Our shields cool docked vessels completely." }
+                ],
+                isSolarStation: true,
+                isMiningStation: false,
+                shipsForSale
+              };
+            } else {
+              const shipsForSale = Object.values(SHIPS_BLUEPRINTS)
+                .filter(ship => (ship.techLevel || 1) <= stationTech)
+                .map(ship => ship.id);
+                
+              station = {
+                name: stationName,
+                techLevel: stationTech,
+                techTitle: stationTitle,
+                missionBoard: generateMissionBoard(x, y, stationTech, factionKey),
+                hiringLounge: hiringLounge,
+                cantinaVisitors: generateCantinaVisitors(x, y, stationTech, factionKey, rand),
+                isMiningStation: isMiningStationSector,
+                shipsForSale
+              };
+            }
           }
         }
 
@@ -2017,6 +2240,45 @@ export default function App() {
     }, 1500);
   };
 
+  const handleDeployStationCore = () => {
+    if (!activeSector) return;
+    const cost = activeSector.planet ? 500 : 1000;
+    if (credits < cost) return;
+
+    const coreIndex = cargo.findIndex(c => c.type === "station_core" && c.qty > 0);
+    if (coreIndex === -1) return;
+
+    setCredits(prev => prev - cost);
+    removeCargoItem(coreIndex, 1);
+
+    setGalaxy(prev => {
+      const next = [...prev];
+      if (next[position.x]) {
+        next[position.x] = [...next[position.x]];
+        
+        const newStation: Station = {
+          name: `${crew[0]?.name || "Player"}'s Outpost`,
+          techLevel: 6, // Base tech level for player stations
+          techTitle: "Player-Built Outpost",
+          missionBoard: generateMissionBoard(position.x, position.y, 6, "player"),
+          hiringLounge: generateRecruits(6, Math.random),
+          cantinaVisitors: generateCantinaVisitors(position.x, position.y, 6, "player", Math.random),
+          isMiningStation: false,
+          shipsForSale: Object.values(SHIPS_BLUEPRINTS).filter(s => (s.techLevel || 1) <= 6).map(s => s.id)
+        };
+
+        next[position.x][position.y] = {
+          ...next[position.x][position.y],
+          station: newStation,
+        };
+      }
+      return next;
+    });
+
+    addTerminalLog(`Successfully deployed Station Core. An orbital station is now online in this sector!`, "success");
+    AudioEngine.playBeep(880, 0.4, "sine");
+  };
+
   const handleTriggerWarpJumpToWaypoint = (waypoint: VoidWaypoint) => {
     const warpFuelCost = hyperdriveOverclocked ? 2.2 : 4.0;
     if (fuel < warpFuelCost) {
@@ -2195,11 +2457,13 @@ export default function App() {
     setCrew(initialCrew);
 
     setFittedComponents({
-      shield: "shield_standard",
-      hull: "hull_standard",
-      engine: "engine_standard",
-      scanner: "scanner_standard",
-      cargo: "cargo_standard"
+      shield: ["shield_standard"],
+      hull: ["hull_standard"],
+      engine: ["engine_standard"],
+      scanner: ["scanner_standard"],
+      cargo: ["cargo_standard"],
+      mining: ["mining_standard"],
+      heat: ["heat_core"]
     });
     setOwnedComponents([]);
     
@@ -2222,10 +2486,22 @@ export default function App() {
   };
 
   useEffect(() => {
-    // Generate initial galaxy and load quests on boot
-    buildProceduralGalaxy(2);
-    setActiveQuests(JSON.parse(JSON.stringify(STORY_QUESTS_CAMPAIGNS)));
-    addTerminalLog("SYSTEM INITIALIZED: Alpha Centauri C (Proxima) Orbital.", "info");
+    // Generate initial galaxy and load quests on boot after dynamic load completes
+    loadGameData().then(() => {
+      buildProceduralGalaxy(2);
+      setActiveQuests(JSON.parse(JSON.stringify(STORY_QUESTS_CAMPAIGNS)));
+      setDataLoaded(prev => prev + 1);
+      addTerminalLog("SYSTEM INITIALIZED: Dynamic templates loaded. Alpha Centauri C (Proxima) Orbital.", "success");
+    });
+
+    // Watch for dynamic template changes (on the fly hot reloading)
+    const interval = setInterval(() => {
+      loadGameData().then(() => {
+        setDataLoaded(prev => prev + 1);
+      });
+    }, 5000);
+
+    return () => clearInterval(interval);
   }, []);
 
   // --- BACKGROUND MINING ANCHORED TICKS ---
@@ -2403,14 +2679,22 @@ export default function App() {
     const isVolatile = cell.planet.resourceNode.type === "ore_ignis";
     const hasMiner = crew.some((c) => c.role === "Miner");
     const drillId = fittedComponents.mining || "mining_standard";
-    const hasTier2Drill = drillId === "mining_heavy" || drillId === "mining_plasma";
+    const drillComponent = COMPONENT_ITEMS[drillId];
+    const hasTier2Drill = drillComponent ? (drillComponent.techLevel || 1) >= 4 : false;
 
     // Gaseous deposits checks
     const isGaseous = cell.planet.resourceNode.isGaseous;
-    const hasGasSiphon = drillId === "mining_gas";
+    const canMineGas = drillComponent?.miningTarget === "gas" || drillComponent?.miningTarget === "both";
+    const canMineOre = drillComponent?.miningTarget === "ore" || drillComponent?.miningTarget === "both" || !drillComponent?.miningTarget;
 
-    if (isGaseous && !hasGasSiphon) {
-      addTerminalLog("FATAL ERROR: This is a gaseous deposit. Harvesting requires an ATMOSPHERIC GAS SIPHON component installed in your ship's engineering module (purchasable from Mining Stations).", "danger");
+    if (isGaseous && !canMineGas) {
+      addTerminalLog("FATAL ERROR: This is a gaseous deposit. Harvesting requires a GAS SIPHON component installed in your ship's engineering module (purchasable from Mining Stations).", "danger");
+      AudioEngine.playBeep(150, 0.4, "sawtooth");
+      return;
+    }
+
+    if (!isGaseous && !canMineOre) {
+      addTerminalLog("FATAL ERROR: This is a solid mineral deposit. Harvesting requires an ORE DRILL component installed in your ship's engineering module. Gas siphons cannot extract solid ore.", "danger");
       AudioEngine.playBeep(150, 0.4, "sawtooth");
       return;
     }
@@ -3436,11 +3720,16 @@ export default function App() {
     }
 
     // Calculate engine reliability
-    const engineId = fittedComponents.engine || "engine_standard";
-    let reliability = 50;
-    if (engineId === "engine_ion") reliability = 70;
-    else if (engineId === "engine_fusion") reliability = 85;
-    else if (engineId === "engine_singularity") reliability = 99;
+    const engineIds = fittedComponents.engine || [];
+    let maxReliability = 50;
+    for (const engineId of engineIds) {
+      let r = 50;
+      if (engineId === "engine_ion") r = 70;
+      else if (engineId === "engine_fusion") r = 85;
+      else if (engineId === "engine_singularity") r = 99;
+      if (r > maxReliability) maxReliability = r;
+    }
+    let reliability = maxReliability;
 
     const roll = Math.random() * 100;
     let finalTargetX = targetX;
@@ -3723,9 +4012,12 @@ export default function App() {
 
   // Shield regeneration
   useEffect(() => {
-    const shieldId = fittedComponents.shield;
-    const shieldComponent = shieldId ? COMPONENT_ITEMS[shieldId] : undefined;
-    const bonus = shieldComponent ? shieldComponent.bonus : 0;
+    const shieldIds = fittedComponents.shield || [];
+    let bonus = 0;
+    for (const id of shieldIds) {
+      const comp = COMPONENT_ITEMS[id];
+      if (comp) bonus += comp.bonus;
+    }
     
     // Scale regen rate by reactor system power: 3=1x, 0=0x, 6=2x
     let powerScale = 1.0;
@@ -4615,6 +4907,31 @@ export default function App() {
       return next;
     });
 
+    setFittedComponents(prev => {
+      const next = { ...prev };
+      for (const cat of ["shield", "hull", "engine", "scanner", "cargo", "mining", "heat"]) {
+        const allowedSlots = ship.componentSlots?.[cat as keyof typeof ship.componentSlots] || 1;
+        const currentArr = next[cat] || [];
+        
+        if (currentArr.length > allowedSlots) {
+           // Move overflow to inventory
+           const overflow = currentArr.slice(allowedSlots);
+           const legitOverflow = overflow.filter(id => !id.endsWith("_standard"));
+           if (legitOverflow.length > 0) {
+             setOwnedComponents(owned => [...owned, ...legitOverflow]);
+           }
+           next[cat] = currentArr.slice(0, allowedSlots);
+        } else if (currentArr.length < allowedSlots) {
+           const expanded = [...currentArr];
+           while (expanded.length < allowedSlots) {
+             expanded.push(`${cat}_standard`);
+           }
+           next[cat] = expanded;
+        }
+      }
+      return next;
+    });
+
     addTerminalLog(`DRYDOCK INITIATED: Successfully swaped starship frame to ${ship.name}! Attributes aligned.`, "success");
     AudioEngine.playBeep(1300, 0.5, "sine");
   };
@@ -4645,11 +4962,13 @@ export default function App() {
     setInventoryWeapons((prev) => [...prev, removedWepId]);
   };
 
-  const handleEquipComponent = (category: string, compId: string) => {
+  const handleEquipComponent = (category: string, compId: string, slotIndex: number = 0) => {
     const nextFitted = { ...fittedComponents };
-    const prevCompId = nextFitted[category];
-
-    nextFitted[category] = compId;
+    if (!nextFitted[category]) nextFitted[category] = [];
+    else nextFitted[category] = [...nextFitted[category]]; // Copy array to trigger React render
+    
+    const prevCompId = nextFitted[category][slotIndex];
+    nextFitted[category][slotIndex] = compId;
     setFittedComponents(nextFitted);
 
     if (category === "heat" && compId === "heat_core") {
@@ -4668,12 +4987,14 @@ export default function App() {
     }
   };
 
-  const handleDismountComponent = (category: string) => {
-    const existing = fittedComponents[category];
+  const handleDismountComponent = (category: string, slotIndex: number = 0) => {
+    const arr = fittedComponents[category] || [];
+    const existing = arr[slotIndex];
     if (!existing || existing.endsWith("_standard")) return;
 
     const nextFitted = { ...fittedComponents };
-    nextFitted[category] = `${category}_standard`;
+    nextFitted[category] = [...arr];
+    nextFitted[category][slotIndex] = `${category}_standard`;
     setFittedComponents(nextFitted);
 
     setOwnedComponents((prev) => [...prev, existing]);
@@ -4707,7 +5028,7 @@ export default function App() {
   };
 
   const handleEjectHeatCore = () => {
-    if (fittedComponents.heat !== "heat_core") {
+    if (!(fittedComponents.heat || []).includes("heat_core")) {
        addTerminalLog("EJECTION FAILED: No heat core fitted.", "danger");
        return;
     }
@@ -4795,14 +5116,22 @@ export default function App() {
     if (data.equippedWeapons !== undefined) setEquippedWeapons(data.equippedWeapons);
     if (data.inventoryWeapons !== undefined) setInventoryWeapons(data.inventoryWeapons);
     if (data.fittedComponents !== undefined) {
-      setFittedComponents({
-        engine: "engine_standard",
-        scanner: "scanner_standard",
-        cargo: "cargo_standard",
-        mining: "mining_standard",
-        heat: "heat_core",
-        ...data.fittedComponents
-      });
+      const fc = data.fittedComponents;
+      const normalized = {};
+      const shipSpecs = SHIPS_BLUEPRINTS[data.activeShip || "interceptor"] || SHIPS_BLUEPRINTS.interceptor;
+      for (const cat of ["shield", "hull", "engine", "scanner", "cargo", "mining", "heat"]) {
+        const maxSlots = shipSpecs.componentSlots?.[cat as keyof typeof shipSpecs.componentSlots] || 1;
+        let arr = [];
+        if (Array.isArray(fc[cat])) {
+          arr = fc[cat];
+        } else if (typeof fc[cat] === "string") {
+          arr = [fc[cat]];
+        } else {
+          arr = [cat === "heat" ? "heat_core" : cat + "_standard"];
+        }
+        normalized[cat] = arr.slice(0, maxSlots);
+      }
+      setFittedComponents(normalized);
     }
     if (data.ownedComponents !== undefined) setOwnedComponents(data.ownedComponents);
     if (data.ownedBlueprints !== undefined) setOwnedBlueprints(data.ownedBlueprints);
@@ -5071,19 +5400,22 @@ export default function App() {
         const requiredFuel = shipSpecs.fuelConsumption * distance * discount;
         const hasEnoughFuel = fuel >= requiredFuel;
 
-        const engineId = fittedComponents.engine || "engine_standard";
-        let reliability = 50;
+        const engineIds = fittedComponents.engine || [];
+        let maxReliability = 50;
         let engineName = "Standard Warp Drive";
-        if (engineId === "engine_ion") {
-          reliability = 70;
-          engineName = "Ion Thruster Drive";
-        } else if (engineId === "engine_fusion") {
-          reliability = 85;
-          engineName = "Thermonuclear Core Drive";
-        } else if (engineId === "engine_singularity") {
-          reliability = 99;
-          engineName = "Singularity Fold Drive";
+        for (const engineId of engineIds) {
+          if (engineId === "engine_singularity") {
+            maxReliability = 99;
+            engineName = "Singularity Fold Drive";
+          } else if (engineId === "engine_fusion" && maxReliability < 85) {
+            maxReliability = 85;
+            engineName = "Thermonuclear Core Drive";
+          } else if (engineId === "engine_ion" && maxReliability < 70) {
+            maxReliability = 70;
+            engineName = "Ion Thruster Drive";
+          }
         }
+        let reliability = maxReliability;
 
         return (
           <div id="experimental-jump-modal" className="fixed inset-0 bg-black/90 backdrop-blur-md z-[120] flex flex-col justify-center items-center p-4">
@@ -6092,6 +6424,17 @@ export default function App() {
                   setActiveTab("cockpit");
                 }}
                 hasSave={!!localStorage.getItem("cosmos_os_quicksave_react")}
+                onLoadAddon={(addon, name) => {
+                  try {
+                    applyCustomAddon(addon);
+                    setLoadedAddons(prev => [...prev, name]);
+                    addTerminalLog(`[ADD-ON INSTALLED]: Loaded "${name}" custom package dynamically!`, "success");
+                    AudioEngine.playBeep(900, 0.2, "sine");
+                  } catch (err) {
+                    addTerminalLog(`[ADD-ON ERROR]: Failed to inject custom addon "${name}". Check schema fields.`, "danger");
+                  }
+                }}
+                loadedAddons={loadedAddons}
               />
             )}
             
@@ -6773,7 +7116,7 @@ export default function App() {
                 credits={credits}
                 themeColor={activeTheme}
                 currentCrewCount={crew.length}
-                stationTechLevel={activeSector.station.techLevel}
+                shipsForSale={activeSector.station.shipsForSale || []}
               />
             )}
 
@@ -6876,6 +7219,8 @@ export default function App() {
                 isInDeepSpace={isInDeepSpace}
                 backupFuel={backupFuel}
                 setBackupFuel={setBackupFuel}
+                activeSector={activeSector}
+                onDeployStationCore={handleDeployStationCore}
               />
             )}
 
@@ -6910,10 +7255,10 @@ export default function App() {
                     : "planetary_core"
                 }
                 scannerQuality={
-                  fittedComponents.scanner === "scanner_mk4" ? 1.0 :
-                  fittedComponents.scanner === "scanner_mk3" ? 0.8 :
-                  fittedComponents.scanner === "scanner_mk2" ? 0.6 :
-                  fittedComponents.scanner === "scanner_mk1" ? 0.4 : 0.2
+                  ((fittedComponents.scanner || []).includes("scanner_mk4") ? 1.0 :
+                  (fittedComponents.scanner || []).includes("scanner_mk3") ? 0.8 :
+                  (fittedComponents.scanner || []).includes("scanner_mk2") ? 0.6 :
+                  (fittedComponents.scanner || []).includes("scanner_mk1") ? 0.4 : 0.2)
                 }
                 themeColor={activeTheme}
               />

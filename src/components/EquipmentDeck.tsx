@@ -12,13 +12,13 @@ import { AudioEngine } from "../audio";
 interface EquipmentDeckProps {
   equippedWeapons: (string | null)[];
   inventoryWeapons: string[];
-  fittedComponents: Record<string, string>;
+  fittedComponents: Record<string, string[]>;
   ownedComponents: string[];
   activeShipId: string;
   onMountWeapon: (slotIndex: number, weaponId: string) => void;
   onDismountWeapon: (slotIndex: number) => void;
-  onEquipComponent: (category: string, compId: string) => void;
-  onDismountComponent: (category: string) => void;
+  onEquipComponent: (category: string, compId: string, slotIndex?: number) => void;
+  onDismountComponent: (category: string, slotIndex?: number) => void;
   onClose: () => void;
   themeColor: "green" | "amber" | "cyan";
   onRepairAll: () => void;
@@ -133,13 +133,13 @@ export const EquipmentDeck: React.FC<EquipmentDeckProps> = ({
     onDismountWeapon(slotIndex);
   };
 
-  const handleEquipComponentClick = (category: string, compId: string) => {
-    onEquipComponent(category, compId);
+  const handleEquipComponentClick = (category: string, compId: string, slotIndex: number) => {
+    onEquipComponent(category, compId, slotIndex);
     setSelectedInventoryComponentIndex(null);
   };
 
-  const handleDismountComponentClick = (category: string) => {
-    onDismountComponent(category);
+  const handleDismountComponentClick = (category: string, slotIndex: number) => {
+    onDismountComponent(category, slotIndex);
   };
 
   const themeTextClass =
@@ -334,71 +334,86 @@ export const EquipmentDeck: React.FC<EquipmentDeckProps> = ({
           ) : (
             <div className="w-full flex flex-col justify-between flex-grow">
               {/* Schematics matrix */}
-              <div className="flex-grow grid grid-cols-7 gap-2 justify-center items-center text-center my-6">
+              <div className="flex-grow flex flex-col justify-center gap-2 my-2 overflow-y-auto">
                 {["shield", "hull", "engine", "scanner", "cargo", "mining", "heat"].map((cat) => {
-                  const fittedId = fittedComponents[cat] || `${cat}_standard`;
-                  const comp = COMPONENT_ITEMS[fittedId];
-                  const rarityClass = getRarityStyleClass(comp ? comp.rarity : "common");
-                  
-                  let CatIcon = Shield;
-                  if (cat === "engine") CatIcon = Rocket;
-                  if (cat === "scanner") CatIcon = Radar;
-                  if (cat === "cargo") CatIcon = Package;
-                  if (cat === "hull") CatIcon = Database;
-                  if (cat === "mining") CatIcon = Pickaxe;
-                  if (cat === "heat") CatIcon = Thermometer;
+                  const slotsCount = SHIPS_BLUEPRINTS[activeShipId]?.componentSlots?.[cat as keyof typeof SHIPS_BLUEPRINTS[string]['componentSlots']] || 1;
+                  const fittedArr = fittedComponents[cat] || [];
+                  return Array.from({ length: slotsCount }).map((_, slotIndex) => {
+                    const fittedId = fittedArr[slotIndex] || `${cat}_standard`;
+                    const comp = COMPONENT_ITEMS[fittedId];
+                    const rarityClass = getRarityStyleClass(comp ? comp.rarity : "common");
+                    
+                    let CatIcon = Shield;
+                    if (cat === "engine") CatIcon = Rocket;
+                    else if (cat === "hull") CatIcon = Wrench;
+                    else if (cat === "scanner") CatIcon = Radar;
+                    else if (cat === "cargo") CatIcon = Package;
+                    else if (cat === "mining") CatIcon = Pickaxe;
+                    else if (cat === "heat") CatIcon = Flame;
 
-                  return (
-                    <div key={cat} className="p-2 border border-current/20 bg-black/60 rounded text-center">
-                      <span className="text-[10px] block font-bold uppercase opacity-60">{cat}</span>
-                      <CatIcon size={14} className={`mx-auto my-1.5 ${rarityClass}`} />
-                      <span className={`text-[9px] block truncate font-semibold ${rarityClass}`}>
-                        {comp ? comp.name.replace("Standard ", "").replace(" Gen", "").replace(" Plates", "") : "Stock"}
-                      </span>
-                    </div>
-                  );
+                    return (
+                      <div key={`${cat}-${slotIndex}`} className="flex flex-col items-center justify-center p-2">
+                        <CatIcon className={`w-6 h-6 mb-1 ${rarityClass}`} />
+                        <div className="text-[10px] uppercase opacity-70 mb-1">{cat} Slot {slotIndex + 1}</div>
+                        <div className={`text-xs font-bold ${rarityClass}`}>
+                          {comp ? comp.name : "STOCK"}
+                        </div>
+                      </div>
+                    );
+                  });
                 })}
               </div>
 
               {/* Module Upgrade slots */}
-              <div id="fitting-component-rack" className="w-full grid grid-cols-3 md:grid-cols-7 gap-1.5 mt-auto">
+              <div id="fitting-component-rack" className="w-full flex flex-wrap gap-1.5 mt-auto max-h-48 overflow-y-auto">
                 {["shield", "hull", "engine", "scanner", "cargo", "mining", "heat"].map((cat) => {
-                  const fittedId = fittedComponents[cat] || `${cat}_standard`;
-                  const comp = COMPONENT_ITEMS[fittedId];
-                  const isStock = fittedId.endsWith("_standard");
+                  const slotsCount = SHIPS_BLUEPRINTS[activeShipId]?.componentSlots?.[cat as keyof typeof SHIPS_BLUEPRINTS[string]['componentSlots']] || 1;
+                  const fittedArr = fittedComponents[cat] || [];
+                  
+                  return Array.from({ length: slotsCount }).map((_, slotIndex) => {
+                    const fittedId = fittedArr[slotIndex] || `${cat}_standard`;
+                    const comp = COMPONENT_ITEMS[fittedId];
+                    const isStock = fittedId.endsWith("_standard");
 
-                  // Check if currently selected inventory component matches this category
-                  const canEquipSelected =
-                    selectedInventoryComponentIndex !== null &&
-                    COMPONENT_ITEMS[ownedComponents[selectedInventoryComponentIndex]]?.category === cat;
+                    // Check if currently selected inventory component matches this category
+                    const canEquipSelected =
+                      selectedInventoryComponentIndex !== null &&
+                      COMPONENT_ITEMS[ownedComponents[selectedInventoryComponentIndex]]?.category === cat;
 
-                  return (
-                    <button
-                      key={cat}
-                      id={`upgrade-category-${cat}`}
-                      onClick={() => {
-                        if (canEquipSelected && selectedInventoryComponentIndex !== null) {
-                          AudioEngine.playBeep(850, 0.15, "sine");
-                          handleEquipComponentClick(cat, ownedComponents[selectedInventoryComponentIndex]);
-                        } else if (!isStock) {
-                          AudioEngine.playBeep(400, 0.1, "triangle");
-                          handleDismountComponentClick(cat);
-                        }
-                      }}
-                      className={`p-2 border text-[10px] rounded text-center transition flex flex-col justify-center items-center gap-0.5 ${
-                        canEquipSelected
-                          ? "border-yellow-400 text-yellow-300 bg-yellow-500/10 animate-pulse font-bold"
-                          : isStock
-                          ? "border-current/20 opacity-60 bg-black/20 cursor-default"
-                          : "border-current hover:bg-red-500/10 hover:border-red-500 hover:text-red-400"
-                      }`}
-                    >
-                      <span className="font-bold text-[8px] uppercase opacity-50">{cat}</span>
-                      <span className="font-semibold block truncate max-w-[80px]">
-                        {canEquipSelected ? "FUSE SELECTED" : isStock ? "STOCK" : "DISMOUNT"}
-                      </span>
-                    </button>
-                  );
+                    return (
+                      <button
+                        key={`${cat}-${slotIndex}`}
+                        id={`upgrade-category-${cat}-${slotIndex}`}
+                        onClick={() => {
+                          if (canEquipSelected && selectedInventoryComponentIndex !== null) {
+                            AudioEngine.playBeep(850, 0.15, "sine");
+                            handleEquipComponentClick(cat, ownedComponents[selectedInventoryComponentIndex], slotIndex);
+                          } else if (!isStock) {
+                            AudioEngine.playBeep(400, 0.1, "triangle");
+                            handleDismountComponentClick(cat, slotIndex);
+                          }
+                        }}
+                        className={`flex-grow min-w-[100px] p-2 border text-[10px] rounded text-center transition flex flex-col justify-center items-center gap-0.5 ${
+                          canEquipSelected
+                            ? "border-yellow-400 text-yellow-300 bg-yellow-500/10 animate-pulse font-bold"
+                            : isStock
+                            ? "border-current/20 opacity-60 bg-black/20 cursor-default"
+                            : "border-current hover:bg-red-500/10 hover:border-red-500 hover:text-red-400"
+                        }`}
+                      >
+                        <div className="uppercase font-bold tracking-widest opacity-80 border-b border-current/20 pb-0.5 w-full">
+                          {cat} {slotIndex + 1}
+                        </div>
+                        <div className="pt-1">
+                          {comp ? (
+                            <span className={getRarityStyleClass(comp.rarity)}>{comp.name}</span>
+                          ) : (
+                            "EMPTY"
+                          )}
+                        </div>
+                      </button>
+                    );
+                  });
                 })}
               </div>
             </div>

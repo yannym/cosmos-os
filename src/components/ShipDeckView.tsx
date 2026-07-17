@@ -117,6 +117,8 @@ interface ShipDeckViewProps {
   isInDeepSpace?: boolean;
   backupFuel?: number;
   setBackupFuel?: React.Dispatch<React.SetStateAction<number>>;
+  activeSector?: any;
+  onDeployStationCore?: () => void;
 }
 
 export const ShipDeckView: React.FC<ShipDeckViewProps> = ({
@@ -146,7 +148,9 @@ export const ShipDeckView: React.FC<ShipDeckViewProps> = ({
   currentSystemIndex = 0,
   isInDeepSpace = false,
   backupFuel = 100,
-  setBackupFuel
+  setBackupFuel,
+  activeSector,
+  onDeployStationCore
 }) => {
   // System State Management
   const [avatarRoom, setAvatarRoom] = useState<string>("bridge");
@@ -1035,6 +1039,24 @@ export const ShipDeckView: React.FC<ShipDeckViewProps> = ({
                     className="w-full py-1.5 border border-indigo-500 bg-indigo-950/20 hover:bg-indigo-500 hover:text-black text-indigo-400 font-bold text-[10px] rounded transition cursor-pointer flex items-center justify-center gap-1.5 uppercase font-mono"
                   >
                     <Cpu size={12} className="animate-spin" /> SCAN DEEP SPACE FOR ANOMALIES
+                  </button>
+                )}
+
+                {/* Deploy Station Core Logic */}
+                {!isInDeepSpace && activeSector && !activeSector.station && (!activeSector.enemies || activeSector.enemies.length === 0) && (
+                  <button
+                    onClick={() => onDeployStationCore && onDeployStationCore()}
+                    disabled={roomIntegrity.bridge < 40 || !cargo.some(c => c.type === "station_core" && c.qty > 0) || credits < (activeSector.planet ? 500 : 1000)}
+                    className={`w-full py-1.5 border font-bold text-[10px] rounded transition flex flex-col items-center justify-center gap-0.5 uppercase font-mono ${
+                      cargo.some(c => c.type === "station_core" && c.qty > 0)
+                        ? "border-teal-500 bg-teal-950/20 hover:bg-teal-500 hover:text-black text-teal-400 cursor-pointer"
+                        : "border-neutral-800 bg-black text-neutral-600 cursor-not-allowed"
+                    }`}
+                  >
+                    <div className="flex items-center gap-1.5"><Cpu size={12} /> DEPLOY STATION CORE</div>
+                    <span className="text-[8px] opacity-75">
+                      Cost: {activeSector.planet ? "500 CR (Orbital Bonus)" : "1000 CR"} | Req: Station Core
+                    </span>
                   </button>
                 )}
 

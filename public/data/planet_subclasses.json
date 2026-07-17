@@ -1,0 +1,21 @@
+[
+  { "name": "Gas Giant", "color": "text-orange-400", "suffix": "Prime", "type": "gas" },
+  { "name": "Dwarf Planet", "color": "text-emerald-500", "suffix": "Minor", "type": "barren" },
+  { "name": "Rogue Moon", "color": "text-indigo-400", "suffix": "Theta", "type": "rocky" },
+  { "name": "Lush Biosphere", "color": "text-green-400", "suffix": "Major", "type": "earthlike" },
+  { "name": "Volcanic Caldera", "color": "text-red-500", "suffix": "Sigma", "type": "ash" },
+  {
+    "name": "Heavy Core Asteroid Belt",
+    "color": "text-yellow-600",
+    "suffix": "Mantle",
+    "type": "asteroid_field",
+    "requiresMiner": true
+  },
+  {
+    "name": "Frozen Mineral Planet",
+    "color": "text-blue-300",
+    "suffix": "Apex",
+    "type": "planetary_core",
+    "requiresMiner": true
+  }
+]

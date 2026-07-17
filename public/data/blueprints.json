@@ -1,0 +1,315 @@
+[
+  {
+    "id": "bp_pulse_laser_mk2",
+    "name": "Pulse Laser MK2 Blueprint",
+    "description": "Exotic optic focus. Upgrades dynamic thermal laser emitters.",
+    "resultType": "weapon",
+    "resultId": "pulse_laser_mk2",
+    "materials": [
+      { "type": "scrap", "qty": 5 },
+      { "type": "superconductor", "qty": 2 }
+    ],
+    "fuelCost": 1.0,
+    "heatGenerated": 15
+  },
+  {
+    "id": "bp_pulse_laser_mk3",
+    "name": "Pulse Laser MK3 Blueprint",
+    "description": "Military optical array. Unleashes peak kinetic-shield melt.",
+    "resultType": "weapon",
+    "resultId": "pulse_laser_mk3",
+    "materials": [
+      { "type": "superconductor", "qty": 4 },
+      { "type": "orichalcum", "qty": 1 }
+    ],
+    "fuelCost": 1.5,
+    "heatGenerated": 25
+  },
+  {
+    "id": "bp_torpedo_launcher_mk2",
+    "name": "HE Torpedo Tube MK2 Blueprint",
+    "description": "Magnetic projectile booster. Amplifies standard fusion launcher output.",
+    "resultType": "weapon",
+    "resultId": "torpedo_launcher_mk2",
+    "materials": [
+      { "type": "scrap", "qty": 6 },
+      { "type": "superconductor", "qty": 2 }
+    ],
+    "fuelCost": 1.0,
+    "heatGenerated": 15
+  },
+  {
+    "id": "bp_torpedo_launcher_mk3",
+    "name": "HE Torpedo Tube MK3 Blueprint",
+    "description": "Heavy nuclear array. Demolishes heavy capital ship plating.",
+    "resultType": "weapon",
+    "resultId": "torpedo_launcher_mk3",
+    "materials": [
+      { "type": "orichalcum", "qty": 2 },
+      { "type": "plasma_gas", "qty": 3 }
+    ],
+    "fuelCost": 2.0,
+    "heatGenerated": 30
+  },
+  {
+    "id": "bp_ion_blaster_mk2",
+    "name": "Heavy Ion Array MK2 Blueprint",
+    "description": "Tachyon grid disruptor. Locks hostile secondary batteries.",
+    "resultType": "weapon",
+    "resultId": "ion_blaster_mk2",
+    "materials": [
+      { "type": "superconductor", "qty": 3 },
+      { "type": "heavy_water", "qty": 2 }
+    ],
+    "fuelCost": 1.2,
+    "heatGenerated": 20
+  },
+  {
+    "id": "bp_plasma_spike_mk2",
+    "name": "Plasma Thermal MK2 Blueprint",
+    "description": "Atomic beam focal assembly. Melts shields and armor evenly.",
+    "resultType": "weapon",
+    "resultId": "plasma_spike_mk2",
+    "materials": [
+      { "type": "plasma_gas", "qty": 4 },
+      { "type": "superconductor", "qty": 3 }
+    ],
+    "fuelCost": 1.5,
+    "heatGenerated": 22
+  },
+  {
+    "id": "bp_shield_carbon",
+    "name": "Carbon Deflector Gen Blueprint",
+    "description": "Carbon mesh deflector layers. Adds +30 Maximum Shields.",
+    "resultType": "module",
+    "resultId": "shield_carbon",
+    "materials": [
+      { "type": "scrap", "qty": 4 },
+      { "type": "ore", "qty": 2 }
+    ],
+    "fuelCost": 0.8,
+    "heatGenerated": 12
+  },
+  {
+    "id": "bp_shield_aegis",
+    "name": "Aegis Matrix Gen Blueprint",
+    "description": "Polarizing wave emitter. Adds +60 Maximum Shields.",
+    "resultType": "module",
+    "resultId": "shield_aegis",
+    "materials": [
+      { "type": "superconductor", "qty": 2 },
+      { "type": "heavy_water", "qty": 3 }
+    ],
+    "fuelCost": 1.2,
+    "heatGenerated": 18
+  },
+  {
+    "id": "bp_shield_void",
+    "name": "Void-Shield Harmonizer Blueprint",
+    "description": "Cosmic void energy core. Adds +100 Maximum Shields.",
+    "resultType": "module",
+    "resultId": "shield_void",
+    "materials": [
+      { "type": "singularity_core", "qty": 1 },
+      { "type": "heavy_water", "qty": 5 }
+    ],
+    "fuelCost": 2.5,
+    "heatGenerated": 35
+  },
+  {
+    "id": "bp_hull_reinforced",
+    "name": "Blast Alloy Plates Blueprint",
+    "description": "Composite alloy sheets. Adds +40 Maximum Hull Integrity.",
+    "resultType": "module",
+    "resultId": "hull_reinforced",
+    "materials": [
+      { "type": "scrap", "qty": 8 },
+      { "type": "titanium_plates", "qty": 3 }
+    ],
+    "fuelCost": 0.8,
+    "heatGenerated": 15
+  },
+  {
+    "id": "bp_hull_nanite",
+    "name": "Nanite Self-Sealing Plates Blueprint",
+    "description": "Fusing metal armor matrix. Adds +80 Maximum Hull Integrity.",
+    "resultType": "module",
+    "resultId": "hull_nanite",
+    "materials": [
+      { "type": "nanobots", "qty": 3 },
+      { "type": "titanium_plates", "qty": 5 }
+    ],
+    "fuelCost": 1.2,
+    "heatGenerated": 18
+  },
+  {
+    "id": "bp_hull_neutron",
+    "name": "Neutron Core Matrix Armor Blueprint",
+    "description": "Extreme density neutron star armor. Adds +150 Maximum Hull Integrity.",
+    "resultType": "module",
+    "resultId": "hull_neutron",
+    "materials": [
+      { "type": "neutronium", "qty": 2 },
+      { "type": "titanium_plates", "qty": 8 }
+    ],
+    "fuelCost": 2.5,
+    "heatGenerated": 30
+  },
+  {
+    "id": "bp_engine_ion",
+    "name": "Ion Thruster Drive Blueprint",
+    "description": "Balanced plasma nozzle. Cuts FTL fuel consumption by 15%.",
+    "resultType": "module",
+    "resultId": "engine_ion",
+    "materials": [
+      { "type": "superconductor", "qty": 2 },
+      { "type": "fuel", "qty": 3 }
+    ],
+    "fuelCost": 1.0,
+    "heatGenerated": 15
+  },
+  {
+    "id": "bp_engine_fusion",
+    "name": "Thermonuclear Core Drive Blueprint",
+    "description": "Heavy nuclear loop. Cuts FTL fuel consumption by 30%.",
+    "resultType": "module",
+    "resultId": "engine_fusion",
+    "materials": [
+      { "type": "helium_3", "qty": 5 },
+      { "type": "heavy_water", "qty": 4 }
+    ],
+    "fuelCost": 1.5,
+    "heatGenerated": 20
+  },
+  {
+    "id": "bp_engine_singularity",
+    "name": "Singularity Fold Drive Blueprint",
+    "description": "Folds local space-time fabric. Cuts FTL fuel consumption by 50%.",
+    "resultType": "module",
+    "resultId": "engine_singularity",
+    "materials": [
+      { "type": "singularity_core", "qty": 1 },
+      { "type": "antimatter_capsule", "qty": 2 }
+    ],
+    "fuelCost": 3.0,
+    "heatGenerated": 40
+  },
+  {
+    "id": "bp_spirit_neutron_ale",
+    "name": "Neutron Ale Blueprint",
+    "description": "Recipe for microgravity ale. Buffs weapons expert focus.",
+    "resultType": "spirit",
+    "resultId": "spirit_neutron_ale",
+    "materials": [
+      { "type": "hydroponics_fiber", "qty": 3 },
+      { "type": "helium_3", "qty": 1 }
+    ],
+    "fuelCost": 0.5,
+    "heatGenerated": 8
+  },
+  {
+    "id": "bp_spirit_hyperdrive_tonic",
+    "name": "Hyperdrive Tonic Blueprint",
+    "description": "Recipe for tachyon energy tonic. Buffs pilot reflexes.",
+    "resultType": "spirit",
+    "resultId": "spirit_hyperdrive_tonic",
+    "materials": [
+      { "type": "hydroponics_fiber", "qty": 2 },
+      { "type": "heavy_water", "qty": 2 },
+      { "type": "noble_helium", "qty": 1 }
+    ],
+    "fuelCost": 0.8,
+    "heatGenerated": 10
+  },
+  {
+    "id": "bp_spirit_comet_nectar",
+    "name": "Comet Nectar Blueprint",
+    "description": "Recipe for comet-harvested nectar. Buffs miner efficiency.",
+    "resultType": "spirit",
+    "resultId": "spirit_comet_nectar",
+    "materials": [
+      { "type": "hydroponics_fiber", "qty": 2 },
+      { "type": "heavy_water", "qty": 3 }
+    ],
+    "fuelCost": 0.5,
+    "heatGenerated": 5
+  },
+  {
+    "id": "bp_spirit_antimatter_brew",
+    "name": "Antimatter Brew Blueprint",
+    "description": "Recipe for volatile glowing brew. Buffs engine fuel savings.",
+    "resultType": "spirit",
+    "resultId": "spirit_antimatter_brew",
+    "materials": [
+      { "type": "antimatter_capsule", "qty": 1 },
+      { "type": "hydroponics_fiber", "qty": 2 }
+    ],
+    "fuelCost": 1.0,
+    "heatGenerated": 12
+  },
+  {
+    "id": "bp_spirit_ion_shake",
+    "name": "Ion Shield Shake Blueprint",
+    "description": "Recipe for carbonated mineral shake. Buffs shield modulation.",
+    "resultType": "spirit",
+    "resultId": "spirit_ion_shake",
+    "materials": [
+      { "type": "hydroponics_fiber", "qty": 3 },
+      { "type": "superconductor", "qty": 1 }
+    ],
+    "fuelCost": 0.6,
+    "heatGenerated": 8
+  },
+  {
+    "id": "bp_nanobots",
+    "name": "Nanobot Injector Blueprint",
+    "description": "Synthesizes automated mechanical repair injections.",
+    "resultType": "consumable",
+    "resultId": "nanobots",
+    "materials": [
+      { "type": "scrap", "qty": 3 },
+      { "type": "superconductor", "qty": 1 }
+    ],
+    "fuelCost": 0.5,
+    "heatGenerated": 10
+  },
+  {
+    "id": "bp_shieldcore",
+    "name": "Shielding Harmonizer Blueprint",
+    "description": "Synthesizes tactical shield grid restoration batteries.",
+    "resultType": "consumable",
+    "resultId": "shieldcore",
+    "materials": [
+      { "type": "ore", "qty": 2 },
+      { "type": "superconductor", "qty": 1 }
+    ],
+    "fuelCost": 0.5,
+    "heatGenerated": 8
+  },
+  {
+    "id": "bp_torpedo_proton",
+    "name": "Proton Torpedo Blueprint",
+    "description": "Refines heavy high-density fission warhead rockets.",
+    "resultType": "consumable",
+    "resultId": "torpedo_proton",
+    "materials": [
+      { "type": "torpedo", "qty": 2 },
+      { "type": "helium_3", "qty": 2 }
+    ],
+    "fuelCost": 0.6,
+    "heatGenerated": 12
+  },
+  {
+    "id": "bp_torpedo_antimatter",
+    "name": "Anti-Matter Torpedo Blueprint",
+    "description": "Synthesizes devastating anti-matter annihilation warheads.",
+    "resultType": "consumable",
+    "resultId": "torpedo_antimatter",
+    "materials": [
+      { "type": "torpedo_proton", "qty": 2 },
+      { "type": "antimatter_capsule", "qty": 1 }
+    ],
+    "fuelCost": 1.2,
+    "heatGenerated": 20
+  }
+]

@@ -1,0 +1,53 @@
+[
+  {
+    "id": "station_fringe_1",
+    "name": "Border Gateway",
+    "techLevel": 1,
+    "techTitle": "Low-Tech Border Hub",
+    "spawnProbability": 0.4,
+    "hp": 2000,
+    "maxHp": 2000,
+    "preferredFactions": ["hegemony", "syndicate", "independent", "consortium"]
+  },
+  {
+    "id": "station_mid_1",
+    "name": "Sector Outpost",
+    "techLevel": 2,
+    "techTitle": "Medium-Tech Sector Outpost",
+    "spawnProbability": 0.3,
+    "hp": 3000,
+    "maxHp": 3000,
+    "preferredFactions": ["hegemony", "syndicate", "consortium"]
+  },
+  {
+    "id": "station_high_1",
+    "name": "Industrial Spire",
+    "techLevel": 3,
+    "techTitle": "High-Tech Industrial Spire",
+    "spawnProbability": 0.2,
+    "hp": 5000,
+    "maxHp": 5000,
+    "preferredFactions": ["hegemony", "consortium"]
+  },
+  {
+    "id": "station_mining_deep",
+    "name": "Deep Core Mining Station",
+    "techLevel": 4,
+    "techTitle": "Specialized Extraction Facility",
+    "spawnProbability": 0.1,
+    "hp": 4000,
+    "maxHp": 4000,
+    "preferredFactions": ["neutral", "independent", "consortium"]
+  },
+  {
+    "id": "station_solar",
+    "name": "Solar Forge",
+    "techLevel": 4,
+    "techTitle": "Deep Solar Energy Harvesting Station",
+    "spawnProbability": 0.05,
+    "hp": 8000,
+    "maxHp": 8000,
+    "preferredFactions": ["hegemony", "consortium"],
+    "lockedToSystem": "Tau Ceti" 
+  }
+]

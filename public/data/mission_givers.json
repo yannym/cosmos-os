@@ -1,0 +1,50 @@
+[
+  {
+    "id": "mg_informant_1",
+    "name": "Shady Informant",
+    "role": "Information Broker",
+    "description": "A twitchy individual selling recon coordinates.",
+    "colorClass": "text-neutral-400",
+    "avatarIcon": "eye",
+    "type": "informant",
+    "missionType": "recon",
+    "rarity": "common",
+    "preferredFactions": ["neutral", "syndicate"]
+  },
+  {
+    "id": "mg_smuggler_1",
+    "name": "Void Smuggler",
+    "role": "Black Market Trader",
+    "description": "Offers high-paying haul jobs for illicit goods.",
+    "colorClass": "text-purple-400",
+    "avatarIcon": "package",
+    "type": "smuggler",
+    "missionType": "haul",
+    "rarity": "uncommon",
+    "preferredFactions": ["syndicate"]
+  },
+  {
+    "id": "mg_mercenary_1",
+    "name": "Bounty Hunter",
+    "role": "Mercenary Leader",
+    "description": "Looking for backup on a dangerous bounty.",
+    "colorClass": "text-red-500",
+    "avatarIcon": "crosshair",
+    "type": "mercenary",
+    "missionType": "bounty",
+    "rarity": "common",
+    "preferredFactions": ["hegemony", "neutral"]
+  },
+  {
+    "id": "mg_vip_1",
+    "name": "Corporate Exec",
+    "role": "VIP Passenger",
+    "description": "Needs a discreet and heavily armed escort out of the sector.",
+    "colorClass": "text-cyan-400",
+    "avatarIcon": "briefcase",
+    "type": "informant",
+    "missionType": "vip",
+    "rarity": "rare",
+    "preferredFactions": ["consortium"]
+  }
+]

@@ -1,0 +1,18 @@
+[
+  { "name": "Sol", "type": "trade", "desc": "The birthplace of humanity. A high-security core system protected by the Solar Hegemony.", "factionOwner": "Hegemony", "techLevel": 10, "safetyRating": 100, "oreEnrichment": 20, "connections": [1, 2, 3, 5, 7] },
+  { "name": "Sirius A", "type": "trade", "desc": "Consortium-dominated bright system.", "factionOwner": "Consortium", "techLevel": 5, "safetyRating": 90, "oreEnrichment": 40, "connections": [0, 5, 7] },
+  { "name": "Proxima Centauri", "type": "pirate", "desc": "Outlaw frontier crimson-dwarf system.", "factionOwner": "Independent", "techLevel": 2, "safetyRating": 20, "oreEnrichment": 60, "connections": [0, 8, 12] },
+  { "name": "Tau Ceti", "type": "anomaly", "desc": "Unstable magnetic void system.", "factionOwner": "None", "techLevel": 3, "safetyRating": 30, "oreEnrichment": 80, "connections": [4, 6, 10] },
+  { "name": "Epsilon Eridani", "type": "military", "desc": "Heavily fortified military defensive hub.", "factionOwner": "Hegemony", "techLevel": 8, "safetyRating": 95, "oreEnrichment": 30, "connections": [3, 9, 15], "jumpLanes": [9, 15] },
+  { "name": "Alpha Centauri", "type": "trade", "desc": "Chaotic commerce hub for outer smugglers.", "factionOwner": "Syndicate", "techLevel": 4, "safetyRating": 40, "oreEnrichment": 50, "connections": [0, 7, 12] },
+  { "name": "Kepler-186", "type": "anomaly", "desc": "Terrifying cultist gravitational core region.", "factionOwner": "Void Cult", "techLevel": 1, "safetyRating": 10, "oreEnrichment": 90, "connections": [3, 10, 13] },
+  { "name": "Barnard's Star", "type": "trade", "desc": "Primary commercial highway artery.", "factionOwner": "Consortium", "techLevel": 6, "safetyRating": 85, "oreEnrichment": 45, "connections": [0, 1, 5, 14], "jumpLanes": [14] },
+  { "name": "Gliese 581", "type": "pirate", "desc": "Debris-filled resource expanse.", "factionOwner": "Independent", "techLevel": 2, "safetyRating": 25, "oreEnrichment": 55, "connections": [2, 12, 15] },
+  { "name": "Luyten's Star", "type": "military", "desc": "Industrial heavy warship shipyard hub.", "factionOwner": "Hegemony", "techLevel": 9, "safetyRating": 90, "oreEnrichment": 35, "connections": [4, 11, 15], "jumpLanes": [4, 15] },
+  { "name": "Fomalhaut", "type": "anomaly", "desc": "Ethereal stellar ring nebula system.", "factionOwner": "None", "techLevel": 4, "safetyRating": 50, "oreEnrichment": 60, "connections": [3, 6, 13] },
+  { "name": "Kapteyn's Star", "type": "trade", "desc": "Massive sub-surface deep core extraction site.", "factionOwner": "Consortium", "techLevel": 5, "safetyRating": 70, "oreEnrichment": 95, "connections": [9, 14, 15] },
+  { "name": "Wolf 359", "type": "pirate", "desc": "Hidden Syndicate underground space station base.", "factionOwner": "Syndicate", "techLevel": 3, "safetyRating": 15, "oreEnrichment": 50, "connections": [2, 5, 8] },
+  { "name": "Aldebaran", "type": "anomaly", "desc": "Deep dark stellar eye, epicenter of the Void Cult.", "factionOwner": "Void Cult", "techLevel": 2, "safetyRating": 5, "oreEnrichment": 95, "connections": [6, 10, 15] },
+  { "name": "Betelgeuse", "type": "trade", "desc": "Red supergiant star transit hub.", "factionOwner": "Consortium", "techLevel": 6, "safetyRating": 80, "oreEnrichment": 40, "connections": [7, 11, 15], "jumpLanes": [7, 15] },
+  { "name": "Vega Orbit", "type": "military", "desc": "Advanced long-range perimeter defense system.", "factionOwner": "Hegemony", "techLevel": 7, "safetyRating": 85, "oreEnrichment": 30, "connections": [4, 8, 9, 11, 13, 14], "jumpLanes": [4, 9, 14] }
+]

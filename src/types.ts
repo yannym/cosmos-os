@@ -74,6 +74,7 @@ export interface Station {
   isSolarStation?: boolean;
   cantinaVisitors?: CantinaVisitor[];
   destroyed?: boolean;
+  shipsForSale?: string[]; // IDs of ships available for purchase here
 }
 
 export interface CantinaVisitor {
@@ -167,6 +168,58 @@ export interface Quest {
   ultimateRewardComponent?: string;
 }
 
+export interface StationTemplate {
+  id: string;
+  name: string;
+  techLevel: number;
+  techTitle: string;
+  spawnProbability: number;
+  uniqueInventory?: { type: string; qty: number; basePrice: number }[];
+  hp: number;
+  maxHp: number;
+  preferredFactions: string[];
+  lockedToSystem?: string; // Optional: restrict to specific system name
+  singleSpawn?: boolean; // If true, guaranteed to spawn exactly once in the galaxy
+}
+
+export interface CrewTemplate {
+  name: string;
+  role: "Pilot" | "Weapons Specialist" | "Science Director" | "Miner" | "Cargo Manager" | "Spy" | "Scanning Technician";
+  pool: boolean; // if true, can be procedurally generated many times. If false, it's a unique character
+  price?: number; // if undefined, auto-calculate
+  perk: string;
+  techLevel?: number;
+}
+
+export interface PilotTemplate {
+  id: string;
+  name: string;
+  shipClass: string;
+  faction: string;
+  personality: "Merchant" | "Patrol" | "Outlaw" | "Miner" | "Explorer";
+  baseReputation: number;
+  isFriend: boolean;
+  baseCredits: number;
+  inventory: { type: string; qty: number; basePrice: number }[];
+  pool: boolean;
+}
+
+export interface MissionGiverTemplate {
+  id: string;
+  name: string;
+  role: string;
+  description: string;
+  colorClass: string;
+  avatarIcon: string;
+  type: "informant" | "syndicate" | "mercenary" | "smuggler";
+  missionType: "vip" | "haul" | "bounty" | "weapon_deal" | "recon" | "salvage" | "spy" | "archaeology";
+  rarity: "common" | "uncommon" | "rare" | "epic";
+  preferredFactions: string[];
+  price?: number;
+  repModifiers?: { faction: string; amount: number }[];
+  requirements?: { repFaction: string; minRep: number }[];
+}
+
 export interface Enemy {
   name: string;
   hull: number;
@@ -242,6 +295,7 @@ export interface ItemTemplate {
   rarity: "common" | "uncommon" | "rare" | "ultra_rare" | "one_of_a_kind";
   maxStack: number;
   bonusDmg?: number;
+  techLevel?: number;
 }
 
 export interface ShipBlueprint {
@@ -254,8 +308,18 @@ export interface ShipBlueprint {
   fuelConsumption: number;
   cargoSlots: number;
   hardpoints: number;
+  componentSlots?: {
+    shield: number;
+    hull: number;
+    engine: number;
+    scanner: number;
+    cargo: number;
+    mining: number;
+    heat: number;
+  };
   maxCrew: number;
   perk: string;
+  techLevel?: number;
 }
 
 export interface WeaponItem {
@@ -269,6 +333,7 @@ export interface WeaponItem {
   icon: string;
   rarity: "common" | "uncommon" | "rare" | "ultra_rare" | "one_of_a_kind";
   desc: string;
+  techLevel?: number;
 }
 
 export interface ComponentItem {
@@ -279,6 +344,8 @@ export interface ComponentItem {
   bonus: number;
   cost: number;
   desc: string;
+  techLevel?: number;
+  miningTarget?: "ore" | "gas" | "both";
 }
 
 export interface FactionDetails {

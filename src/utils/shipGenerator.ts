@@ -1,4 +1,5 @@
-import { SectorShip } from "../types";
+import { SectorShip, PilotTemplate } from "../types";
+import { PILOT_TEMPLATES } from "../constants";
 
 export function getInventoryForPersonality(personality: string) {
   const inv = [];
@@ -23,7 +24,7 @@ export function getInventoryForPersonality(personality: string) {
   }
   // Set quantity equal to qty
   return inv.map(i => {
-    i.quantity = i.qty;
+    (i as any).quantity = i.qty;
     return i;
   });
 }
@@ -56,10 +57,10 @@ export function generateInitialSectorShips(): SectorShip[] {
   for (let i = 0; i < 35; i++) {
     const fName = firstNames[Math.floor(Math.random() * firstNames.length)];
     const sName = secondNames[Math.floor(Math.random() * secondNames.length)];
-    const name = `${fName} ${sName}`;
+    let name = `${fName} ${sName}`;
 
-    const personality = personalities[Math.floor(Math.random() * personalities.length)];
-    const shipClass = shipClasses[Math.floor(Math.random() * shipClasses.length)];
+    let personality = personalities[Math.floor(Math.random() * personalities.length)];
+    let shipClass = shipClasses[Math.floor(Math.random() * shipClasses.length)];
 
     let faction = "Independent";
     if (personality === "Patrol") {
@@ -68,6 +69,28 @@ export function generateInitialSectorShips(): SectorShip[] {
       faction = Math.random() < 0.7 ? "Syndicate" : "Void Cult";
     } else {
       faction = factions[Math.floor(Math.random() * factions.length)];
+    }
+    
+    let baseReputation = 40 + Math.floor(Math.random() * 21);
+    let isFriend = false;
+    let baseCredits = Math.floor(Math.random() * 4000) + 1000;
+    let inventory = getInventoryForPersonality(personality);
+
+    // Dynamic Templates Injector
+    if (PILOT_TEMPLATES && PILOT_TEMPLATES.length > 0 && Math.random() < 0.5) {
+      const template = PILOT_TEMPLATES[Math.floor(Math.random() * PILOT_TEMPLATES.length)];
+      if (!template.pool) {
+        name = template.name; // unique
+      } else {
+        name = `${template.name} ${Math.floor(Math.random() * 1000)}`;
+      }
+      shipClass = template.shipClass;
+      faction = template.faction;
+      personality = template.personality;
+      baseReputation = template.baseReputation;
+      isFriend = template.isFriend;
+      baseCredits = template.baseCredits;
+      inventory = template.inventory.map(i => ({...i, quantity: i.qty}));
     }
 
     const systemIndex = Math.floor(Math.random() * 15);
@@ -79,14 +102,14 @@ export function generateInitialSectorShips(): SectorShip[] {
       name,
       shipClass,
       faction,
-      reputation: 40 + Math.floor(Math.random() * 21), // Starts between 40 and 60 (neutral-ish)
+      reputation: baseReputation,
       personality,
       systemIndex,
       x,
       y,
-      isFriend: false,
-      credits: Math.floor(Math.random() * 4000) + 1000,
-      inventory: getInventoryForPersonality(personality)
+      isFriend,
+      credits: baseCredits,
+      inventory
     });
   }
 

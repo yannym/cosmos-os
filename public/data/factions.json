@@ -1,0 +1,37 @@
+{
+  "neutral": {
+    "name": "Unclaimed Fringe",
+    "color": "text-neutral-400",
+    "borderClass": "border-neutral-500/30",
+    "badgeColor": "bg-neutral-800 text-neutral-300",
+    "repName": ""
+  },
+  "hegemony": {
+    "name": "Solar Hegemony",
+    "color": "text-red-500",
+    "borderClass": "border-red-500/30",
+    "badgeColor": "bg-red-950 text-red-400",
+    "repName": "hegemony"
+  },
+  "syndicate": {
+    "name": "Rebel Syndicate",
+    "color": "text-amber-500",
+    "borderClass": "border-amber-500/30",
+    "badgeColor": "bg-amber-950 text-amber-400",
+    "repName": "syndicate"
+  },
+  "cult": {
+    "name": "Void Cult",
+    "color": "text-purple-400",
+    "borderClass": "border-purple-500/30",
+    "badgeColor": "bg-purple-950 text-purple-300",
+    "repName": "cult"
+  },
+  "consortium": {
+    "name": "Merchant Consortium",
+    "color": "text-cyan-400",
+    "borderClass": "border-cyan-500/30",
+    "badgeColor": "bg-cyan-950 text-cyan-300",
+    "repName": "consortium"
+  }
+}

@@ -1,0 +1,20 @@
+const fs = require('fs');
+let code = fs.readFileSync('src/constants.ts', 'utf8');
+
+// Rather than regex, let's just replace the exact block.
+const shipsBlockRegex = /const DEFAULT_SHIPS_BLUEPRINTS: Record<string, ShipBlueprint> = \{([\s\S]*?)\n\};/;
+
+const replacement = `const DEFAULT_SHIPS_BLUEPRINTS: Record<string, ShipBlueprint> = {
+  interceptor: { id: "interceptor", name: "Wraith Interceptor", price: 800, maxHull: 80, maxShield: 60, maxFuel: 40, fuelConsumption: 0.8, cargoSlots: 12, hardpoints: 2, maxCrew: 2, perk: "Acrobatic Hull: Grants passive +15% evasive rating. Light hull holds up to 2 active crew.", techLevel: 1, componentSlots: { shield: 1, hull: 1, engine: 1, scanner: 1, cargo: 1, mining: 1, heat: 1 } },
+  starter_miner: { id: "starter_miner", name: "Vanguard Mining Interceptor", price: 800, maxHull: 80, maxShield: 60, maxFuel: 40, fuelConsumption: 0.8, cargoSlots: 16, hardpoints: 1, maxCrew: 3, perk: "Vanguard mining frame: Equipped with extra crew slots (3), a 16-slot cargo hold, and a single high-efficiency weapon lane.", techLevel: 1, componentSlots: { shield: 1, hull: 1, engine: 1, scanner: 1, cargo: 1, mining: 1, heat: 1 } },
+  starter_patrol: { id: "starter_patrol", name: "Wraith Patrol Interceptor", price: 800, maxHull: 110, maxShield: 90, maxFuel: 40, fuelConsumption: 0.8, cargoSlots: 12, hardpoints: 2, maxCrew: 2, perk: "Patrol heavy frame: Reinforce titanium plating and defensive shields up to 90 SP / 110 HP.", techLevel: 1, componentSlots: { shield: 1, hull: 1, engine: 1, scanner: 1, cargo: 1, mining: 1, heat: 1 } },
+  starter_explorer: { id: "starter_explorer", name: "Wraith Long-Range Explorer", price: 800, maxHull: 80, maxShield: 60, maxFuel: 80, fuelConsumption: 0.8, cargoSlots: 20, hardpoints: 1, maxCrew: 2, perk: "Long-range exploration layout: Fitted with an 80-unit fuel reservoir, a 20-slot cargo hold, and a single defensive weapon lane.", techLevel: 1, componentSlots: { shield: 1, hull: 1, engine: 1, scanner: 1, cargo: 1, mining: 1, heat: 1 } },
+  freighter: { id: "freighter", name: "Atlas Superfreighter", price: 1200, maxHull: 150, maxShield: 100, maxFuel: 80, fuelConsumption: 1.4, cargoSlots: 30, hardpoints: 2, maxCrew: 5, perk: "Deep Cargo Cell: Large layout slots. Supports up to 5 crew berths.", techLevel: 2, componentSlots: { shield: 1, hull: 1, engine: 1, scanner: 1, cargo: 1, mining: 1, heat: 1 } },
+  gunship: { id: "gunship", name: "Centurion Gunship", price: 1500, maxHull: 180, maxShield: 120, maxFuel: 60, fuelConsumption: 1.6, cargoSlots: 18, hardpoints: 3, maxCrew: 4, perk: "Heavy Gunner: Boasts 3 total weapon lanes and massive defensive plating.", techLevel: 3, componentSlots: { shield: 1, hull: 1, engine: 1, scanner: 1, cargo: 1, mining: 1, heat: 1 } },
+  carrier: { id: "carrier", name: "Titan Drone Carrier", price: 3200, maxHull: 300, maxShield: 200, maxFuel: 100, fuelConsumption: 2.5, cargoSlots: 40, hardpoints: 4, maxCrew: 8, perk: "Fleet Command Deck: Huge hull, 4 weapon lanes, and supports up to 8 crew members.", techLevel: 5, componentSlots: { shield: 1, hull: 1, engine: 1, scanner: 1, cargo: 1, mining: 1, heat: 1 } },
+  nova_cruiser: { id: "nova_cruiser", name: "Nova Cruiser", price: 8500, maxHull: 500, maxShield: 350, maxFuel: 150, fuelConsumption: 3.5, cargoSlots: 60, hardpoints: 5, maxCrew: 12, perk: "Capital Flagship: Tremendous endurance, supports 5 weapon lanes and a massive 12-berth crew capacity.", techLevel: 7, componentSlots: { shield: 2, hull: 2, engine: 2, scanner: 1, cargo: 2, mining: 1, heat: 1 } },
+  mining_super_rig: { id: "mining_super_rig", name: "Colossus Mining Super Rig", price: 45000, maxHull: 500, maxShield: 400, maxFuel: 200, fuelConsumption: 4.0, cargoSlots: 60, hardpoints: 2, maxCrew: 8, perk: "Industrial Behemoth: Massive mining capabilities and holds.", techLevel: 8, componentSlots: { shield: 4, hull: 4, engine: 2, scanner: 2, cargo: 6, mining: 6, heat: 2 } }
+};`;
+
+code = code.replace(shipsBlockRegex, replacement);
+fs.writeFileSync('src/constants.ts', code);

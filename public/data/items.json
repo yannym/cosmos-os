@@ -1,0 +1,393 @@
+{
+  "fuel": {
+    "name": "Warp Fuel Core",
+    "char": "F",
+    "desc": "Plutonium derivative warp energy standard fuel matrix cell.",
+    "value": 20,
+    "color": "text-blue-400",
+    "rarity": "common",
+    "maxStack": 10
+  },
+  "scrap": {
+    "name": "Alloy Hull Scrap",
+    "char": "S",
+    "desc": "Damaged hyper-frame steel suitable for ship repair or metal recycling trade.",
+    "value": 10,
+    "color": "text-amber-600",
+    "rarity": "common",
+    "maxStack": 10
+  },
+  "salvage_beacon": {
+    "name": "Salvage Beacon",
+    "char": "B",
+    "desc": "Deploy after combat to signal salvage crews to wreck sites. Reward credits based on target ships destroyed.",
+    "value": 100,
+    "color": "text-yellow-500",
+    "rarity": "rare",
+    "maxStack": 1
+  },
+  "ore": {
+    "name": "Siderite Crystals",
+    "char": "O",
+    "desc": "Rare raw crystal formation. High market value at industrialized terminals.",
+    "value": 35,
+    "color": "text-purple-400",
+    "rarity": "uncommon",
+    "maxStack": 10
+  },
+  "food": {
+    "name": "Nutrient Packets",
+    "char": "P",
+    "desc": "Standardized biological space provisions for long-haul bridge crew.",
+    "value": 15,
+    "color": "text-green-400",
+    "rarity": "common",
+    "maxStack": 10
+  },
+  "contraband": {
+    "name": "Illegal Nanite Pod",
+    "char": "C",
+    "desc": "Black-market technology banned in alliance sectors. Sells high at Smuggler Hubs.",
+    "value": 120,
+    "color": "text-red-500",
+    "rarity": "ultra_rare",
+    "maxStack": 5
+  },
+  "nanobots": {
+    "name": "Nanobot Injector",
+    "char": "N",
+    "desc": "Active engineering injection system that quickly seals major hull ruptures.",
+    "value": 40,
+    "color": "text-cyan-400",
+    "rarity": "uncommon",
+    "maxStack": 5
+  },
+  "shieldcore": {
+    "name": "Shielding Harmonizer",
+    "char": "H",
+    "desc": "Capacitor system to flash-charge dynamic tactical barrier defenses.",
+    "value": 30,
+    "color": "text-blue-500",
+    "rarity": "uncommon",
+    "maxStack": 5
+  },
+  "torpedo": {
+    "name": "HE Fusion Torpedo",
+    "char": "T",
+    "desc": "Standard high-explosive heavy payload warhead. (+10 Bonus Damage)",
+    "value": 25,
+    "color": "text-orange-500",
+    "bonusDmg": 10,
+    "rarity": "uncommon",
+    "maxStack": 20
+  },
+  "torpedo_proton": {
+    "name": "Proton Torpedo",
+    "char": "P",
+    "desc": "High-density nuclear fission warhead. (+25 Bonus Damage)",
+    "value": 50,
+    "color": "text-red-500",
+    "bonusDmg": 25,
+    "rarity": "rare",
+    "maxStack": 20
+  },
+  "torpedo_antimatter": {
+    "name": "Anti-Matter Torpedo",
+    "char": "A",
+    "desc": "Devastating anti-matter collision warhead. (+50 Bonus Damage)",
+    "value": 100,
+    "color": "text-fuchsia-500",
+    "bonusDmg": 50,
+    "rarity": "ultra_rare",
+    "maxStack": 20
+  },
+  "orichalcum": {
+    "name": "Refined Orichalcum",
+    "char": "U",
+    "desc": "Ultra-hard dense metal alloy used in advanced military bulkheads.",
+    "value": 150,
+    "color": "text-yellow-500",
+    "rarity": "rare",
+    "maxStack": 10
+  },
+  "plasma_gas": {
+    "name": "Purified Plasma Gas",
+    "char": "G",
+    "desc": "Superheated pressurized gas. Vital fuel reactant for heavy starship beams.",
+    "value": 65,
+    "color": "text-orange-400",
+    "rarity": "uncommon",
+    "maxStack": 10
+  },
+  "noble_helium": {
+    "name": "Precious Helium-3 Gas",
+    "char": "H",
+    "desc": "Super-compressed volatile nuclear fusion fuel harvested from heavy gaseous atmospheres. Highly valuable, stacks up to 50.",
+    "value": 180,
+    "color": "text-cyan-400",
+    "rarity": "rare",
+    "maxStack": 50
+  },
+  "neutronium": {
+    "name": "Neutronium Dust",
+    "char": "D",
+    "desc": "Micro-scooped degenerate neutron star matter. Extremely heavy and highly valuable.",
+    "value": 240,
+    "color": "text-purple-500",
+    "rarity": "ultra_rare",
+    "maxStack": 10
+  },
+  "xenomorph_relic": {
+    "name": "Xenomorph Relic",
+    "char": "X",
+    "desc": "Intricate geometric crystal pulsing with low-level bio-signals. Collectors buy this at spaceports.",
+    "value": 2000,
+    "color": "text-fuchsia-500",
+    "rarity": "ultra_rare",
+    "maxStack": 5
+  },
+  "dark_matter": {
+    "name": "Liquid Dark Matter",
+    "char": "M",
+    "desc": "Non-baryonic super-fluid captured from collapsed gravity singularities.",
+    "value": 5000,
+    "color": "text-purple-600 animate-pulse",
+    "rarity": "one_of_a_kind",
+    "maxStack": 2
+  },
+  "beacon": {
+    "name": "Navigational Beacon",
+    "char": "B",
+    "desc": "Compact orbital responder unit used to tag space coordinates and broadcast sub-space telemetry.",
+    "value": 120,
+    "color": "text-emerald-400 animate-pulse",
+    "rarity": "uncommon",
+    "maxStack": 5
+  },
+  "encrypted_drive": {
+    "name": "Encrypted Data Drive",
+    "char": "K",
+    "desc": "Damaged hyper-drive databank. Can be decrypted for massive reputation or values.",
+    "value": 90,
+    "color": "text-cyan-400",
+    "rarity": "uncommon",
+    "maxStack": 5
+  },
+  "weapon_frame": {
+    "name": "Damaged Prototype Frame",
+    "char": "W",
+    "desc": "Exotic chassis alloy template from a classified military prototype project.",
+    "value": 1000,
+    "color": "text-red-500",
+    "rarity": "rare",
+    "maxStack": 2
+  },
+  "helium_3": {
+    "name": "Helium-3 Fuel Gas",
+    "char": "3",
+    "desc": "Clean thermonuclear fusion isotope harvested from gas giants.",
+    "value": 25,
+    "color": "text-blue-300",
+    "rarity": "common",
+    "maxStack": 10
+  },
+  "hydroponics_fiber": {
+    "name": "Synthetic Algae Fiber",
+    "char": "Y",
+    "desc": "Basic organic matter used in bio-reactors and synth-food synthesis.",
+    "value": 12,
+    "color": "text-green-600",
+    "rarity": "common",
+    "maxStack": 10
+  },
+  "titanium_plates": {
+    "name": "Hardened Titanium Sheets",
+    "char": "I",
+    "desc": "Raw structural metal plating used to reinforce standard ship hulls.",
+    "value": 30,
+    "color": "text-slate-400",
+    "rarity": "common",
+    "maxStack": 10
+  },
+  "superconductor": {
+    "name": "High-Temp Superconductor",
+    "char": "C",
+    "desc": "Zero-resistance ceramic strands used for starship power transmission grid lines.",
+    "value": 75,
+    "color": "text-teal-400",
+    "rarity": "uncommon",
+    "maxStack": 10
+  },
+  "heavy_water": {
+    "name": "Deuterium Ice",
+    "char": "W",
+    "desc": "Enriched isotope water blocks vital for reactor coolant jacket shielding.",
+    "value": 45,
+    "color": "text-cyan-600",
+    "rarity": "uncommon",
+    "maxStack": 10
+  },
+  "singularity_core": {
+    "name": "Micro-Singularity Core",
+    "char": "Q",
+    "desc": "Gravitationally collapsed micro-shell. Vital for sub-space warp engine drives.",
+    "value": 1500,
+    "color": "text-indigo-400 animate-pulse",
+    "rarity": "rare",
+    "maxStack": 5
+  },
+  "neural_gel": {
+    "name": "Bio-Neural Gel Matrix",
+    "char": "B",
+    "desc": "Organic computing fluid designed to speed up navigational matrix coordinate calculation.",
+    "value": 220,
+    "color": "text-emerald-500",
+    "rarity": "rare",
+    "maxStack": 5
+  },
+  "antimatter_capsule": {
+    "name": "Concentrated Antimatter Capsule",
+    "char": "A",
+    "desc": "Magnetic containment canister containing trace anti-protons. Highly volatile and precious.",
+    "value": 500,
+    "color": "text-fuchsia-600",
+    "rarity": "rare",
+    "maxStack": 5
+  },
+  "stellar_ignition_spark": {
+    "name": "Stellar Core Ignition Spark",
+    "char": "Z",
+    "desc": "Active stellar ignition spark enclosed in a temporal stasis envelope. Prized by megacorporations.",
+    "value": 8000,
+    "color": "text-amber-300 font-bold animate-pulse",
+    "rarity": "one_of_a_kind",
+    "maxStack": 2
+  },
+  "chronos_dust": {
+    "name": "Chronometric Dust",
+    "char": "T",
+    "desc": "Tachyon-infused dust particles capable of localized space-time frame manipulation.",
+    "value": 4000,
+    "color": "text-violet-500 font-bold animate-pulse",
+    "rarity": "ultra_rare",
+    "maxStack": 2
+  },
+  "keycard_hegemony": {
+    "name": "Hegemony Core Clearance Keycard",
+    "char": "💳",
+    "desc": "An encrypted military keycard that spoofs Hegemony identity networks, unlocking restricted faction products.",
+    "value": 800,
+    "color": "text-red-400",
+    "rarity": "rare",
+    "maxStack": 1
+  },
+  "keycard_syndicate": {
+    "name": "Syndicate Decryption Keycard",
+    "char": "💳",
+    "desc": "A cloned security card that bypasses Syndicate lockouts, granting clearance as an insider.",
+    "value": 800,
+    "color": "text-yellow-500",
+    "rarity": "rare",
+    "maxStack": 1
+  },
+  "keycard_cult": {
+    "name": "Void Cult Ritual Sigil",
+    "char": "💳",
+    "desc": "A dark magnetic insignia that fools Void Cult scanning towers, spoofing high-ranking devotion.",
+    "value": 800,
+    "color": "text-purple-400",
+    "rarity": "rare",
+    "maxStack": 1
+  },
+  "keycard_consortium": {
+    "name": "Consortium VIP Access Token",
+    "char": "💳",
+    "desc": "A premium commerce ledger bypass token that spoofs Merchant Consortium loyalty points.",
+    "value": 800,
+    "color": "text-cyan-400",
+    "rarity": "rare",
+    "maxStack": 1
+  },
+  "ore_astraea": {
+    "name": "Astraea Crystals",
+    "char": "★",
+    "desc": "Shining celestial crystals infused with background void energy. Extremely valuable.",
+    "value": 80,
+    "color": "text-cyan-400",
+    "rarity": "rare",
+    "maxStack": 10
+  },
+  "ore_pyrite": {
+    "name": "Pyrite Prisms",
+    "char": "◆",
+    "desc": "Light-splitting mineral matrix with super-conducting metallic crystalline structures.",
+    "value": 150,
+    "color": "text-amber-400",
+    "rarity": "rare",
+    "maxStack": 10
+  },
+  "ore_ignis": {
+    "name": "Volatile Ignis Ore",
+    "char": "🔥",
+    "desc": "Highly explosive raw mineral. Highly dangerous to harvest, but extremely valuable.",
+    "value": 300,
+    "color": "text-red-500",
+    "rarity": "ultra_rare",
+    "maxStack": 5
+  },
+  "spirit_neutron_ale": {
+    "name": "Crafted Neutron Ale",
+    "char": "🍺",
+    "desc": "Microgravity fermented spirit. Drink to increase Weapons Specialist damage (+15% for 5 jumps).",
+    "value": 80,
+    "color": "text-amber-300 font-bold",
+    "rarity": "uncommon",
+    "maxStack": 10
+  },
+  "spirit_hyperdrive_tonic": {
+    "name": "Crafted Hyperdrive Tonic",
+    "char": "🧪",
+    "desc": "Tachyon-purified dynamic tonic. Drink to increase Pilot Evasion (+20% for 6 jumps).",
+    "value": 120,
+    "color": "text-cyan-300 font-bold animate-pulse",
+    "rarity": "rare",
+    "maxStack": 10
+  },
+  "spirit_comet_nectar": {
+    "name": "Crafted Comet Nectar",
+    "char": "🧉",
+    "desc": "Sweet comet-melt drink. Drink to increase Miner Mining Yield efficiency (+25% for 8 jumps).",
+    "value": 70,
+    "color": "text-teal-300 font-bold",
+    "rarity": "uncommon",
+    "maxStack": 10
+  },
+  "spirit_antimatter_brew": {
+    "name": "Crafted Antimatter Brew",
+    "char": "🍷",
+    "desc": "Volatile containment beverage. Drink to increase FTL jump fuel savings (+15% for 4 jumps).",
+    "value": 100,
+    "color": "text-fuchsia-400 font-bold animate-pulse",
+    "rarity": "rare",
+    "maxStack": 10
+  },
+  "spirit_ion_shake": {
+    "name": "Crafted Ion Shield Shake",
+    "char": "🥛",
+    "desc": "Highly carbonated shield tonic. Drink to increase Operator Shield capacity (+20% for 5 jumps).",
+    "value": 90,
+    "color": "text-blue-300 font-bold",
+    "rarity": "uncommon",
+    "maxStack": 10
+  },
+  "station_core": {
+    "name": "Deployable Station Core",
+    "char": "C",
+    "desc": "A massive modular seed-frame for deep space station assembly.",
+    "value": 4000,
+    "color": "text-teal-400 font-bold",
+    "rarity": "ultra_rare",
+    "techLevel": 6,
+    "maxStack": 1
+  }
+}

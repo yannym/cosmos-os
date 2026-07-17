@@ -1,13 +1,21 @@
 import React, { useMemo } from "react";
-import { Sparkles, Shield, RefreshCw, Cpu, Star, Radio } from "lucide-react";
+import { Sparkles, RefreshCw, Radio } from "lucide-react";
 
 interface MainMenuProps {
   onInitiateStart: () => void;
   onQuickLoad?: () => void;
   hasSave?: boolean;
+  onLoadAddon: (addon: any, name: string) => void;
+  loadedAddons: string[];
 }
 
-export const MainMenu: React.FC<MainMenuProps> = ({ onInitiateStart, onQuickLoad, hasSave }) => {
+export const MainMenu: React.FC<MainMenuProps> = ({
+  onInitiateStart,
+  onQuickLoad,
+  hasSave,
+  onLoadAddon,
+  loadedAddons,
+}) => {
   // Generate deterministic stars for the menu background
   const stars = useMemo(() => {
     return Array.from({ length: 40 }).map((_, i) => ({
@@ -17,6 +25,21 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onInitiateStart, onQuickLoad
       opacity: ((i % 5) + 3) / 10,
     }));
   }, []);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const json = JSON.parse(event.target?.result as string);
+        onLoadAddon(json, file.name);
+      } catch (err) {
+        alert("Invalid JSON format. Please upload a valid game addon JSON file.");
+      }
+    };
+    reader.readAsText(file);
+  };
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-neutral-950 p-4 font-mono text-neutral-200 overflow-hidden select-none">
@@ -90,7 +113,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onInitiateStart, onQuickLoad
         </div>
 
         {/* Action Controls */}
-        <div className="space-y-3.5">
+        <div className="space-y-4">
           {hasSave && onQuickLoad && (
             <button
               onClick={onQuickLoad}
@@ -108,6 +131,43 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onInitiateStart, onQuickLoad
             <Sparkles size={16} className="text-emerald-400 hover:text-black" />
             {hasSave ? "INITIALIZE NEW FLIGHT" : "INITIALIZE FLIGHT SYSTEMS"}
           </button>
+
+          {/* Dynamic Custom Addon Injector Box */}
+          <div className="border border-cyan-500/20 bg-cyan-950/10 p-4 rounded space-y-2.5">
+            <div className="flex items-center justify-between text-[10px] font-bold text-cyan-400 tracking-wider">
+              <span>DYNAMICAL JSON ADD-ONS</span>
+              <span className="text-[8px] text-neutral-400 px-1 py-0.5 border border-cyan-500/20 rounded bg-cyan-950/40">HOT LOAD</span>
+            </div>
+            <p className="text-[9px] text-neutral-400 leading-relaxed">
+              Inject custom quests, items, and ships on-the-fly into the active database.
+            </p>
+            
+            <div className="flex items-center gap-2">
+              <label className="w-full flex items-center justify-center gap-2 py-2 px-3 border border-dashed border-cyan-500/40 hover:border-cyan-400 hover:bg-cyan-950/30 text-cyan-400 font-bold uppercase text-[9px] tracking-wider transition-all duration-200 rounded cursor-pointer">
+                <input
+                  type="file"
+                  accept=".json"
+                  className="hidden"
+                  onChange={handleFileChange}
+                />
+                LOAD ADDON FILE (.JSON)
+              </label>
+            </div>
+
+            {loadedAddons.length > 0 && (
+              <div className="space-y-1 text-[9px] pt-1 border-t border-cyan-500/10">
+                <div className="text-neutral-500 uppercase tracking-widest font-bold text-[8px]">ACTIVE MODS / ADDONS:</div>
+                <div className="grid grid-cols-1 gap-1">
+                  {loadedAddons.map((name, i) => (
+                    <div key={i} className="flex items-center gap-1.5 text-emerald-400">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      {name}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
           
           <div className="grid grid-cols-2 gap-3 text-center">
             <div className="py-2.5 border border-neutral-900 bg-neutral-950/40 text-neutral-400 hover:text-white rounded transition text-[10px] font-bold uppercase tracking-wider">

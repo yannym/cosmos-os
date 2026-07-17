@@ -1,0 +1,87 @@
+[
+  {
+    "id": "neutron_ale",
+    "name": "Neutron Ale",
+    "cost": 50,
+    "description": "Brewed in microgravity. Sharp and energizing. Increases Weapons Specialist combat focus (+15% Damage for 5 sector jumps).",
+    "buffType": "damage",
+    "buffAmount": 0.15,
+    "durationJumps": 5
+  },
+  {
+    "id": "hyperdrive_tonic",
+    "name": "Hyperdrive Tonic",
+    "cost": 75,
+    "description": "Infused with synthetically purified tachyon particles. Boosts pilot reflex and warp calculations (+20% Evasion for 6 sector jumps).",
+    "buffType": "evasion",
+    "buffAmount": 0.20,
+    "durationJumps": 6
+  },
+  {
+    "id": "comet_nectar",
+    "name": "Comet Nectar",
+    "cost": 40,
+    "description": "Sweet water harvested from pristine deep-space comets. Revives weary miner reflexes (+25% Mining Yield efficiency for 8 sector jumps).",
+    "buffType": "mining",
+    "buffAmount": 0.25,
+    "durationJumps": 8
+  },
+  {
+    "id": "antimatter_brew",
+    "name": "Antimatter Brew",
+    "cost": 60,
+    "description": "A hyper-volatile, glowing compound. Temporarily enhances engine warp containment field (+15% FTL jump fuel savings for 4 sector jumps).",
+    "buffType": "fuel_discount",
+    "buffAmount": 0.15,
+    "durationJumps": 4
+  },
+  {
+    "id": "ion_shield_shake",
+    "name": "Ion Shield Shake",
+    "cost": 55,
+    "description": "Heavily carbonated mineral shake. Enhances system operator shield modulation (+20% Shield Capacity for 5 sector jumps).",
+    "buffType": "shields",
+    "buffAmount": 0.20,
+    "durationJumps": 5
+  },
+  {
+    "id": "sirius_solar_flare",
+    "name": "Sirius Solar Flare",
+    "cost": 120,
+    "description": "Exclusive to Sirius A. Radiates stellar dust. Drastically overcharges offensive lasers (+35% Damage for 8 sector jumps).",
+    "exclusiveToSystem": "Sirius A",
+    "buffType": "damage",
+    "buffAmount": 0.35,
+    "durationJumps": 8
+  },
+  {
+    "id": "proxima_crimson_sunset",
+    "name": "Proxima Crimson Sunset",
+    "cost": 100,
+    "description": "Exclusive to Proxima Centauri. Thick, dark liquid. Grants unmatched tactical evasive foresight (+30% Evasion for 10 sector jumps).",
+    "exclusiveToSystem": "Proxima Centauri",
+    "buffType": "evasion",
+    "buffAmount": 0.30,
+    "durationJumps": 10
+  },
+  {
+    "id": "tau_magnetic_spike",
+    "name": "Tau Magnetic Spike",
+    "cost": 110,
+    "description": "Exclusive to Tau Ceti. Intensely ionized. Amplifies mining scanners to pinpoint rich veins (+40% Mining Yield efficiency for 8 sector jumps).",
+    "exclusiveToSystem": "Tau Ceti",
+    "buffType": "mining",
+    "buffAmount": 0.40,
+    "durationJumps": 8
+  },
+  {
+    "id": "alpha_centauri_sling",
+    "name": "Alpha Centauri Sling",
+    "cost": 90,
+    "description": "Exclusive to Alpha Centauri. Smooth smuggler recipe. Increases sub-light hyperdrive efficiency (+25% FTL jump fuel savings for 7 sector jumps).",
+    "exclusiveToSystem": "Alpha Centauri",
+    "buffType": "fuel_discount",
+    "buffAmount": 0.25,
+    "durationJumps": 7
+  }
+]

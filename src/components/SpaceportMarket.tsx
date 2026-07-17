@@ -141,13 +141,17 @@ export const SpaceportMarket: React.FC<SpaceportMarketProps> = ({
   };
 
   const getPriceMultiplier = (key: string): number => {
-    const tech = station.techLevel; // 1 to 5
+    const tech = station.techLevel; // 1 to 10
+    const template = ITEM_TEMPLATES[key];
+    const itemTech = template?.techLevel || 1;
+    
     if (isRawMaterial(key)) {
-      // Tech 1: 0.7x base price. Tech 5: 1.4x base price.
-      return 0.7 + (tech - 1) * 0.175;
+      return 0.7 + (tech - 1) * 0.1;
     } else {
-      // High tech luxury / components. Tech 1: 1.4x price. Tech 5: 0.7x price.
-      return 1.4 - (tech - 1) * 0.175;
+      // High tech items cost more at low tech stations, but they might not be available anyway.
+      // Alternatively, just base it on the item's tech level (high tech = high price)
+      const baseMult = 1 + (itemTech * 0.15); // Higher tech items are fundamentally more expensive
+      return baseMult;
     }
   };
 
@@ -172,14 +176,19 @@ export const SpaceportMarket: React.FC<SpaceportMarketProps> = ({
   // Helper for equipment costs
   const getEquipmentCost = (id: string, type: "weapon" | "component") => {
     const baseCost = type === "weapon" ? WEAPON_ITEMS[id]?.cost : COMPONENT_ITEMS[id]?.cost;
-    if (!baseCost) return 0;
+    const itemObj = type === "weapon" ? WEAPON_ITEMS[id] : COMPONENT_ITEMS[id];
+    if (!baseCost || !itemObj) return 0;
+    
+    const techMultiplier = 1 + ((itemObj.techLevel || 1) * 0.1);
+    const adjustedCost = Math.round(baseCost * techMultiplier);
+    
     if (station?.isBlackMarket) {
-      return Math.round(baseCost * 1.25); // Slightly more expensive at Black Markets
+      return Math.round(adjustedCost * 1.25); // Slightly more expensive at Black Markets
     }
     if (station?.isSolarStation) {
-      return Math.round(baseCost * 2.20); // High prices at the solar station!
+      return Math.round(adjustedCost * 2.20); // High prices at the solar station!
     }
-    return baseCost;
+    return adjustedCost;
   };
 
   const getEquipmentRefund = (id: string, type: "weapon" | "component") => {
@@ -224,6 +233,10 @@ export const SpaceportMarket: React.FC<SpaceportMarketProps> = ({
     const isKeycard = key.startsWith("keycard_");
     if (isKeycard) {
       return station?.isBlackMarket === true;
+    }
+    const template = ITEM_TEMPLATES[key];
+    if (template.techLevel && template.techLevel > station.techLevel && !station?.isBlackMarket) {
+      return false; // Not available at this station due to tech level
     }
     if (station?.isSolarStation) {
       return ["fuel", "titanium_plates", "metal", "heavy_water"].includes(key);
@@ -336,12 +349,15 @@ export const SpaceportMarket: React.FC<SpaceportMarketProps> = ({
 
   // Equipment buying / selling (weapons and components)
   // Tech items available depends on the station tech level
-  const isEquipmentAvailable = (rarity: string) => {
+  const isEquipmentAvailable = (rarity: string, itemTech: number = 1) => {
     if (station?.isSolarStation) {
       return rarity === "common" || rarity === "uncommon"; // low inventory at Solar Forge
     }
     if (station?.isBlackMarket) return true; // Black markets carry everything!
+    
     const tech = station.techLevel;
+    if (itemTech > tech) return false;
+    
     if (rarity === "common") return true;
     if (rarity === "uncommon") return tech >= 2;
     if (rarity === "rare") return tech >= 3;
@@ -829,7 +845,7 @@ export const SpaceportMarket: React.FC<SpaceportMarketProps> = ({
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[320px] overflow-y-auto pr-1">
                   {Object.keys(WEAPON_ITEMS).map((key) => {
                     const wep = WEAPON_ITEMS[key];
-                    const isAvailable = isEquipmentAvailable(wep.rarity);
+                    const isAvailable = isEquipmentAvailable(wep.rarity, wep.techLevel);
                     if (!isAvailable) return null; // Hide locked items if station tech is too low
 
                     const isSelected = selectedItemId === key;
@@ -891,7 +907,7 @@ export const SpaceportMarket: React.FC<SpaceportMarketProps> = ({
                     const comp = COMPONENT_ITEMS[key];
                     if (comp.id.endsWith("_standard")) return null; // Hide factory default freebies
                     if (key === "mining_gas" && !activeSector?.station?.isMiningStation) return null; // Hide gas mining component if not at a mining station
-                    const isAvailable = isEquipmentAvailable(comp.rarity);
+                    const isAvailable = isEquipmentAvailable(comp.rarity, comp.techLevel);
                     if (!isAvailable) return null; // Hide locked components if station tech is too low
 
                     const isSelected = selectedItemId === key;
